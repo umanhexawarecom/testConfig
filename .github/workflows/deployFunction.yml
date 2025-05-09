@@ -49,7 +49,7 @@ jobs:
           $environment = "${{ github.event.inputs.environment }}"
           $resourceGroup = "lineagempg"
           $functionAppName = "testPostTeams"
-          $storageAccountName = "testPostTeams"
+          $storageAccountName = "testPostTeamsStore"
           $appServicePlan = "ASP-lineagempg-a4e0"
           
           # Create the storage account if it doesn't exist
