@@ -12,7 +12,7 @@ on:
 jobs:
   exec:
     name: Create Container ,Upload Config File 
-    runs-on: [self-hosted, linux, adp]
+    runs-on: [ubuntu-latest]
     continue-on-error: false
     environment: "dev"
     env:
