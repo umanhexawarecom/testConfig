@@ -34,6 +34,12 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
+      - name: Install Az Module
+        run: |
+         Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
+         Import-Module Az
+        shell: pwsh
+
       - name: Show proxy settings in ENV 
         run: |
             echo $HTTP_PROXY
