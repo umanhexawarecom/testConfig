@@ -29,11 +29,9 @@ jobs:
       # Login to Azure
       - name: Azure Login
         id: azure_login
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
-         creds:  '{"clientId":"${{ secrets.appId }}","clientSecret":"${{ secrets.password }}","subscriptionId":"${{ secrets.subID }}","tenantId":"${{ secrets.tenant }}"}'
-         enable-AzPSSession: true
-         auth-type: IDENTITY
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Show proxy settings in ENV 
         run: |
