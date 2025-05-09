@@ -4,10 +4,10 @@ on:
   
  push:
       branches : [testConfig]
-pull_request:
+ pull_request:
       branches : [testConfig]
 
-workflow_dispatch:
+ workflow_dispatch:
 
 jobs:
   exec:
