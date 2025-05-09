@@ -1,0 +1,71 @@
+name: Create Container ,Upload Config File
+on:
+
+  
+ push:
+      branches : [testConfig]
+pull_request:
+      branches : [testConfig]
+
+workflow_dispatch:
+
+jobs:
+  exec:
+    name: Create Container ,Upload Config File 
+    runs-on: [self-hosted, linux, adp]
+    continue-on-error: false
+    environment: "dev"
+    env:
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org, www.powershellgallery.com
+
+
+    steps:    
+    
+      # Checkout repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v3
+
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v1
+        with:
+         creds:  '{"clientId":"${{ secrets.appId }}","clientSecret":"${{ secrets.password }}","subscriptionId":"${{ secrets.subID }}","tenantId":"${{ secrets.tenant }}"}'
+         enable-AzPSSession: true
+
+      - name: Show proxy settings in ENV 
+        run: |
+            echo $HTTP_PROXY
+            echo $HTTPS_PROXY
+            echo $NO_PROXY          
+            
+      
+
+      # Run PowerShell script to create container and upload CSV
+      - name: Create Container and Upload CSV
+        shell: pwsh
+        run: |
+          # Define variables
+          $storageAccountName = "lineagempg86c4"         
+          $containerName = "configfiles"
+          #$filePath = "scripts/ps/configFiles/postteamsmessageurlconfig.csv"
+          #$blobName = "postteamsmessageurlconfig.csv"
+
+         
+          # Connect to Azure Storage
+          $context = New-AzStorageContext -StorageAccountName $storageAccountName -UseConnectedAccount
+
+          # Create the container if it doesn't exist
+          $container = Get-AzStorageContainer -Name $containerName -Context $context -ErrorAction SilentlyContinue
+          if (-not $container) {
+              New-AzStorageContainer -Name $containerName -Context $context
+              Write-Host "Container '$containerName' created successfully."
+          } else {
+              Write-Host "Container '$containerName' already exists."
+          }
+
+          # Upload the CSV file
+          #Set-AzStorageBlobContent -File $filePath -Container $containerName -Blob $blobName -Context $context
+
+          #Write-Host "CSV file uploaded successfully to Azure Storage!"
