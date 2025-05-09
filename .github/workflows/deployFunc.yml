@@ -1,5 +1,5 @@
 
-name: Azure Function Deploy for pipeline failure teams message
+name: Azure Function Deploy for pipeline failure teams messages
 on:
 
   
