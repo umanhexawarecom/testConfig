@@ -15,7 +15,7 @@ on:
 env:
   AZURE_LOCATION: eastus
   AZURE_RUNTIME: node
-  AZURE_RUNTIME_VERSION: 16
+  AZURE_RUNTIME_VERSION: 18
   AZURE_FUNCTIONS_VERSION: 4
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
           $environment = "${{ github.event.inputs.environment }}"
           $resourceGroup = "lineagempg"
           $functionAppName = "testpostteams"
-          $storageAccountName = "testpostteamsstore"
+          $storageAccountName = "testpostteamsstores"
           $appServicePlan = "ASP-lineagempg-a4e0"
           
           # Create the storage account if it doesn't exist
