@@ -48,8 +48,8 @@ jobs:
           # Define environment-specific variables
           $environment = "${{ github.event.inputs.environment }}"
           $resourceGroup = "lineagempg"
-          $functionAppName = "testPostTeams"
-          $storageAccountName = "testPostTeamsStore"
+          $functionAppName = "testpostteams"
+          $storageAccountName = "testpostteamsstore"
           $appServicePlan = "ASP-lineagempg-a4e0"
           
           # Create the storage account if it doesn't exist
