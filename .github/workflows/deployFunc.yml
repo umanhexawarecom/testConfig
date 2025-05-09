@@ -1,0 +1,66 @@
+
+name: Azure Function Deploy for pipeline failure teams message
+on:
+
+  
+ push:
+      branches : [main]
+ pull_request:
+      branches : [main]
+       
+ workflow_dispatch:
+
+jobs:
+  exec:
+    name: Azure Function deploy
+    runs-on: [ubuntu-latest]
+    continue-on-error: false
+    environment: "dev"
+    env:
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org, www.powershellgallery.com
+    steps:    
+    
+      # Checkout repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v3
+
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+
+      - name: Show proxy settings in ENV 
+        run: |
+            echo $HTTP_PROXY
+            echo $HTTPS_PROXY
+            echo $NO_PROXY        
+            echo $env:HOME
+
+      # Zip the Azure func folder
+      - name: Zip the Azure func folder
+        shell: pwsh
+        run: |
+          zip -r ./funcDeployment/postTeamsMsg.zip ./*
+        
+         
+      # Build and Deploy to Azure
+      #- name: Build and Deploy to Azure
+      #  shell: pwsh
+      #  run: |
+      #    az functionapp deployment source config-zip \
+      #      --resource-group "func-azuk-teams-test_group" \
+      #      --name "func-azuk-teams-test-pwshdep" \
+      #      --src "./AzfuncDeploy/postTeamsMessage.zip"
+            
+      # Login to Azure
+      - name: Azure Logout
+        run: |
+               az logout
+        if: always()
+             
+             
