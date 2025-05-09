@@ -1,12 +1,6 @@
 name: Create Container ,Upload Config File
 on:
 
-  
- push:
-      branches : [testConfig]
- pull_request:
-      branches : [testConfig]
-
  workflow_dispatch:
 
 jobs:
