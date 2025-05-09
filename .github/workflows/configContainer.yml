@@ -33,6 +33,7 @@ jobs:
         with:
          creds:  '{"clientId":"${{ secrets.appId }}","clientSecret":"${{ secrets.password }}","subscriptionId":"${{ secrets.subID }}","tenantId":"${{ secrets.tenant }}"}'
          enable-AzPSSession: true
+         auth-type: SERVICE_PRINCIPAL
 
       - name: Show proxy settings in ENV 
         run: |
