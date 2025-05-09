@@ -55,8 +55,8 @@ jobs:
           # Define variables
           $storageAccountName = "lineagempg86c4"         
           $containerName = "configfiles"
-          #$filePath = "scripts/ps/configFiles/postteamsmessageurlconfig.csv"
-          #$blobName = "postteamsmessageurlconfig.csv"
+          $filePath = "config/configUrl.csv"
+          $blobName = "configUrl.csv"
 
          
           # Connect to Azure Storage
@@ -72,6 +72,6 @@ jobs:
           }
 
           # Upload the CSV file
-          #Set-AzStorageBlobContent -File $filePath -Container $containerName -Blob $blobName -Context $context
+          Set-AzStorageBlobContent -File $filePath -Container $containerName -Blob $blobName -Context $context
 
-          #Write-Host "CSV file uploaded successfully to Azure Storage!"
+          Write-Host "CSV file uploaded successfully to Azure Storage!"
