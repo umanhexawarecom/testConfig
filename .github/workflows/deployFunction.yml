@@ -1,0 +1,67 @@
+
+name: Azure Function Deploy for pipeline failure teams messages
+on:
+   workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      environment:
+        description: 'Target environment (e.g., dev, staging, prod)'
+        required: true
+        default: 'dev'
+   push:
+     branches : [main]
+   pull_request:
+     branches : [main]
+
+env:
+  AZURE_LOCATION: eastus
+  AZURE_RUNTIME: node
+  AZURE_RUNTIME_VERSION: 16
+  AZURE_FUNCTIONS_VERSION: 4
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:    
+    
+      # Checkout repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Azure CLI
+      - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install Az Module
+        run: |
+         Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
+         Import-Module Az
+        shell: pwsh
+
+      # Step 3: Deploy Azure Function App and HTTP Trigger
+      - name: Deploy Azure Function App
+        shell: pwsh
+        run: |
+          # Define environment-specific variables
+          $environment = "${{ github.event.inputs.environment }}"
+          $resourceGroup = "lineagempg"
+          $functionAppName = "testPostTeams"
+          $storageAccountName = "testPostTeams"
+          $appServicePlan = "ASP-lineagempg-a4e0"
+          
+          # Create the storage account if it doesn't exist
+          Write-Host "Creating or updating storage account: $storageAccountName"
+          az storage account create --name $storageAccountName --location ${{ env.AZURE_LOCATION }} --resource-group $resourceGroup --sku Standard_LRS
+
+           # Create the Function App if it doesn't exist
+           az functionapp create --resource-group $resourceGroup --consumption-plan-location ${{ env.AZURE_LOCATION }} `
+              --runtime ${{ env.AZURE_RUNTIME }} --runtime-version ${{ env.AZURE_RUNTIME_VERSION }} `
+              --functions-version ${{ env.AZURE_FUNCTIONS_VERSION }} --name $functionAppName `
+              --storage-account $storageAccountName --plan $appServicePlan
+            
+
+             
+             
