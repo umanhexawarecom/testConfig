@@ -69,7 +69,7 @@ jobs:
           #cd ./AZfuncDeploy
           #ls -ld ./AZfuncDeploy
           #ls -ld ../AZfuncDeploy
-          zip -r ./funcDeployment/postTeamsMsg.zip ./*
+          zip -r ./funcDeployment/postTeamsMsg.zip 
 
              
              
