@@ -71,6 +71,12 @@ jobs:
           #ls -ld ../AZfuncDeploy
           zip -r ./funcDeployment/postTeamsMsg.zip ./*
 
+      - name: Show proxy settings in ENV 
+        run: |
+            echo $resourceGroup
+            echo $functionAppName
+       
+
 
       # Build and Deploy to Azure
       - name: Build and Deploy to Azure
