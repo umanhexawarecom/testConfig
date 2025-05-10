@@ -76,10 +76,9 @@ jobs:
       - name: Build and Deploy to Azure
         shell: pwsh
         run: |
-          az functionapp deployment source config-zip `
-            --resource-group $resourceGroup `
-            --name  $functionAppName `
-            --src "./funcDeployment/postTeamsMsg.zip"
+          az functionapp deployment source config-zip --resource-group $resourceGroup --name  $functionAppName --src "./funcDeployment/postTeamsMsg.zip"
+         
+            
 
 
              
