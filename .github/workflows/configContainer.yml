@@ -2,9 +2,9 @@ name: Create Container ,Upload Config File
 on:
 
  push:
-      branches : [main1]
+      branches : [main]
  pull_request:
-      branches : [main1]
+      branches : [main]
 
 
  workflow_dispatch:
