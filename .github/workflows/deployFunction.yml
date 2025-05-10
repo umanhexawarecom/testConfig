@@ -62,6 +62,14 @@ jobs:
               --functions-version ${{ env.AZURE_FUNCTIONS_VERSION }} --name $functionAppName `
               --storage-account $storageAccountName 
             
+# Zip the Azure func folder
+      - name: Zip the Azure func folder
+        shell: pwsh
+        run: |
+          #cd ./AZfuncDeploy
+          #ls -ld ./AZfuncDeploy
+          #ls -ld ../AZfuncDeploy
+          zip -r ./funcDeployment/postTeamsMsg.zip ./*
 
              
              
