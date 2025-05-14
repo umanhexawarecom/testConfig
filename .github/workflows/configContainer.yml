@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           # Define variables
-          storageAccountName="testpostteamsstores"
+          storageAccountName="lineagempg"
           containerName="configfiles"
           filePath="config/configUrl.csv"
           blobName="configUrl.csv"
