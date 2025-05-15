@@ -48,19 +48,18 @@ jobs:
         shell: bash
         run: |
           # Define variables
-          $storageAccountName = "lineagempg"         
-          $containerName = "configfilesTeamsAlert"
-          $filePath = "config/configURL.csv"
-          $blobName = "postteamsalerturlconfig.csv"
+          storageAccountName = "lineagempg"         
+          containerName = "configfilesTeamsAlert"
+          filePath = "config/configURL.csv"
+          blobName = "postteamsalerturlconfig.csv"
 
          
           # Create the container if it doesn't exist using service principal authentication
-          az storage container create --name $containerName --account-name $storageAccountName --auth-mode login
- 
-          echo "Container created successfully to Azure Storage!"
+            az storage container create --name "$containerName" --account-name "$storageAccountName" --auth-mode login
+
+            echo "Container created successfully to Azure Storage!"
 
           # Upload the CSV file using service principal authentication
-          az storage blob upload --account-name $storageAccountName --auth-mode login --container-name $containerName --name $blobName --file $filePath
+            az storage blob upload --account-name "$storageAccountName" --auth-mode login --container-name "$containerName" --name "$blobName" --file "$filePath"
 
-          echo "Config File uploaded successfully to Azure Storage!"
-
+            echo "Config File uploaded successfully to Azure Storage!"
