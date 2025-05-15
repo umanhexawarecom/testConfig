@@ -40,11 +40,11 @@ jobs:
       - name: Check Out Repository
         id: checkout_repository
         uses: actions/checkout@v4
-      # Login to Azure
+   # Login to Azure
       - name: Azure Login
         id: azure_login
         uses: azure/login@v2
-         with:
+        with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
             
       # Run Bash script to create container and upload CSV
