@@ -54,9 +54,9 @@ jobs:
           $blobName = "postteamsalerturlconfig.csv"
 
          
-    # Create the container if it doesn't exist using service principal authentication
+          # Create the container if it doesn't exist using service principal authentication
           az storage container create --name $containerName --account-name $storageAccountName --auth-mode login
-
+ 
           echo "Container created successfully to Azure Storage!"
 
           # Upload the CSV file using service principal authentication
