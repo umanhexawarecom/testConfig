@@ -37,17 +37,37 @@ jobs:
         run: |
           # Define variables
           storageAccountName="lineagempg"
-          containerName="configfiles"
+          containerName="teamsalertfiles"
           filePath="config/configUrl.csv"
           blobName="configUrl.csv"
 
           # Get storage account key
-          storageAccountKey=$(az storage account keys list --account-name $storageAccountName --query "[0].value" -o tsv)
+          #storageAccountKey=$(az storage account keys list --account-name $storageAccountName --query "[0].value" -o tsv)
 
           # Create the container if it doesn't exist
-          az storage container create --name $containerName --account-name $storageAccountName --account-key $storageAccountKey
+          #az storage container create --name $containerName --account-name $storageAccountName --account-key $storageAccountKey
 
           # Upload the CSV file
-          az storage blob upload --account-name $storageAccountName --account-key $storageAccountKey --container-name $containerName --name $blobName --file $filePath
+          #az storage blob upload --account-name $storageAccountName --account-key $storageAccountKey --container-name $containerName --name $blobName --file $filePath
 
-          echo "CSV file uploaded successfully to Azure Storage!"
+          #echo "CSV file uploaded successfully to Azure Storage!"
+# Run Bash script to create container and upload CSV
+      - name: Create Container 
+        shell: bash
+        run: |
+          # Define variables
+          $storageAccountName = "lineagempg"         
+          $containerName = "configfilesTeamsAlert"
+          $filePath = "config/configURL.csv"
+          $blobName = "postteamsalerturlconfig.csv"
+
+         
+          # Create the container if it doesn't exist using service principal authentication
+          az storage container create --name $containerName --account-name $storageAccountName --auth-mode login
+ 
+          echo "Container created successfully to Azure Storage!"
+
+          # Upload the CSV file using service principal authentication
+          az storage blob upload --account-name $storageAccountName --auth-mode login --container-name $containerName --name $blobName --file $filePath
+
+          echo "Config File uploaded successfully to Azure Storage!"
