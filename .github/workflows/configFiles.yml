@@ -40,8 +40,8 @@ jobs:
       - name: Azure Login
         id: azure_login
         uses: azure/login@v2
-        with:
-          creds:  '{"clientId":"${{ secrets.SP_CLIENTID }}","clientSecret":"${{ secrets.SP_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTIONID }}","tenantId":"${{ secrets.SP_TENANTID }}"}'              
+         with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
             
       # Run Bash script to create container and upload CSV
       - name: Create Container 
