@@ -48,10 +48,10 @@ jobs:
         shell: bash
         run: |
           # Define variables
-          storageAccountName = "lineagempg"         
-          containerName = "configfilesTeamsAlert"
-          filePath = "config/configURL.csv"
-          blobName = "postteamsalerturlconfig.csv"
+          storageAccountName="lineagempg"         
+          containerName="configfilesTeamsAlert"
+          filePath="config/configURL.csv"
+          blobName="postteamsalerturlconfig.csv"
 
          
           # Create the container if it doesn't exist using service principal authentication
