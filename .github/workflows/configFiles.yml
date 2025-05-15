@@ -10,11 +10,11 @@ on:
         default: "dev"
         description: "Specifies the environment of the deployment."        
 jobs:
-  #TeamsAlertConfigSetupDynamicVariables:
-    #name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
-    #environment: ${{ inputs.environment }}
-    #runs-on: ["ddd"]
-    #continue-on-error: false    
+  TeamsAlertConfigSetupDynamicVariables:
+    name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
+    environment: ${{ inputs.environment }}
+    runs-on: ["ddd"]
+    continue-on-error: false    
     
   TeamsAlertConfigSetupEnvironmentVariables:
     name: Setup Environment Variables for TeamsAlertConfigSetup
