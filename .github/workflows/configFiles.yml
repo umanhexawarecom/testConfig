@@ -9,20 +9,28 @@ on:
         type: string
         default: "dev"
         description: "Specifies the environment of the deployment."        
-jobs:
+#jobs:
   #TeamsAlertConfigSetupDynamicVariables:
     #name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
     #environment: ${{ inputs.environment }}
     #runs-on: ["ddd"]
     #continue-on-error: false    
-    
-  TeamsAlertConfigSetupEnvironmentVariables:
-    name: Setup Environment Variables for TeamsAlertConfigSetup
-    environment: ${{ inputs.environment }}
-    runs-on: ["ddd"]
+
+jobs:
+  exec:
+    name: Create Container, Upload Config File
+    runs-on: ubuntu-latest
     continue-on-error: false
+    environment: "dev"
     env:
-      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org, www.powershellgallery.com
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
+  #TeamsAlertConfigSetupEnvironmentVariables:
+    #name: Setup Environment Variables for TeamsAlertConfigSetup
+    #environment: ${{ inputs.environment }}
+    #runs-on: ["ddd"]
+    #continue-on-error: false
+    #env:
+      #NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org, www.powershellgallery.com
     steps:
       # Check Out Repository
       - name: Check Out Repository
