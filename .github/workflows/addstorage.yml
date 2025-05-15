@@ -1,0 +1,54 @@
+
+name: add storage
+on:
+      
+   workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."        
+
+jobs:
+  exec:
+    name: Create Container, Upload Config File
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    environment: "dev"
+    env:
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
+    steps:
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+   # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+            
+      - name: Attach additional storage account
+        run: |
+          # Define variables
+          functionAppName="testfunc"  # Replace with your Function App name
+          resourceGroupName="lineagempg"  # Replace with your Resource Group name
+          additionalStorageAccountName="lineagempg"  # Replace with the additional Storage Account name
+          appSettingKey="AdditionalStorageConnectionString"  # Key for the app setting
+
+          # Retrieve the connection string for the additional storage account
+          additionalStorageConnectionString=$(az storage account show-connection-string \
+            --name $additionalStorageAccountName \
+            --resource-group $resourceGroupName \
+            --query connectionString \
+            --output tsv)
+
+          # Add the additional storage account connection string to the Function App's app settings
+          az functionapp config appsettings set \
+            --name $functionAppName \
+            --resource-group $resourceGroupName \
+            --settings $appSettingKey=$additionalStorageConnectionString
+
+          echo "Additional storage account successfully attached to the Function App!"
