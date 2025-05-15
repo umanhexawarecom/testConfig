@@ -9,21 +9,21 @@ on:
         type: string
         default: "dev"
         description: "Specifies the environment of the deployment."        
-#jobs:
-  #TeamsAlertConfigSetupDynamicVariables:
-    #name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
-    #environment: ${{ inputs.environment }}
-    #runs-on: ["ddd"]
-    #continue-on-error: false    
-
 jobs:
-  exec:
-    name: Create Container, Upload Config File
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    environment: "dev"
-    env:
-      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
+  TeamsAlertConfigSetupDynamicVariables:
+    name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
+    environment: ${{ inputs.environment }}
+    runs-on: ["ddd"]
+    continue-on-error: false    
+
+#jobs:
+  #exec:
+    #name: Create Container, Upload Config File
+    #runs-on: ubuntu-latest
+    #continue-on-error: false
+    #environment: "dev"
+    #env:
+      #NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
   #TeamsAlertConfigSetupEnvironmentVariables:
     #name: Setup Environment Variables for TeamsAlertConfigSetup
     #environment: ${{ inputs.environment }}
@@ -49,7 +49,7 @@ jobs:
         run: |
           # Define variables
           storageAccountName="lineagempg"         
-          containerName="configfilesteamslert"
+          containerName="configfilesteamslerts"
           filePath="config/configUrl.csv"
           blobName="postteamsalerturlconfig.csv"
 
