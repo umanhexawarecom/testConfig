@@ -49,8 +49,8 @@ jobs:
         run: |
           # Define variables
           storageAccountName="lineagempg"         
-          containerName="configfileseamslert"
-          filePath="config/configURL.csv"
+          containerName="configfilesteamslert"
+          filePath="config/configUrl.csv"
           blobName="postteamsalerturlconfig.csv"
 
          
