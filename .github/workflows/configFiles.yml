@@ -1,0 +1,61 @@
+
+name: Teams Alerting Config Setup
+on:
+    
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."        
+jobs:
+  TeamsAlertConfigSetupDynamicVariables:
+    name: Setup Dynamic Environment Variables for TeamsAlertConfigSetup
+    environment: ${{ inputs.environment }}
+    runs-on: ["ddd"]
+    continue-on-error: false    
+    
+  TeamsAlertConfigSetupEnvironmentVariables:
+    name: Setup Environment Variables for TeamsAlertConfigSetup
+    environment: ${{ inputs.environment }}
+    runs-on: ["ddd"]
+    continue-on-error: false
+    env:
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org, www.powershellgallery.com
+    steps:
+      # Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+      # Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds:  '{"clientId":"${{ secrets.SP_CLIENTID }}","clientSecret":"${{ secrets.SP_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTIONID }}","tenantId":"${{ secrets.SP_TENANTID }}"}'              
+            
+      # Run Bash script to create container and upload CSV
+      - name: Create Container 
+        shell: bash
+        run: |
+          # Define variables
+          $storageAccountName = "lineagempg"         
+          $containerName = "configfilesTeamsAlert"
+          $filePath = "config/configURL.csv"
+          $blobName = "postteamsalerturlconfig.csv"
+
+         
+          # Get storage account key
+          storageAccountKey=$(az storage account keys list --account-name $storageAccountName --query "[0].value" -o tsv)
+
+          # Create the container if it doesn't exist using service principal authentication
+          az storage container create --name $containerName --account-name $storageAccountName --auth-mode login
+
+          echo "Container created successfully to Azure Storage!"
+
+          # Upload the CSV file using service principal authentication
+          az storage blob upload --account-name $storageAccountName --auth-mode login --container-name $containerName --name $blobName --file $filePath
+
+          echo "Config File uploaded successfully to Azure Storage!"
+
