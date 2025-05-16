@@ -12,7 +12,7 @@ on:
 
 jobs:
   exec:
-    name: Create Container, Upload Config File
+    name: Add Storageaccount to Az func
     runs-on: ubuntu-latest
     continue-on-error: false
     environment: "dev"
@@ -33,7 +33,7 @@ jobs:
       - name: Attach additional storage account
         run: |
           # Define variables
-          functionAppName="testfunc"  # Replace with your Function App name
+          functionAppName="testfuncnewalert"  # Replace with your Function App name
           resourceGroupName="lineagempg"  # Replace with your Resource Group name
           additionalStorageAccountName="lineagempg"  # Replace with the additional Storage Account name
           appSettingKey="AdditionalStorageConnectionString"  # Key for the app setting
