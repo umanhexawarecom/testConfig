@@ -35,51 +35,51 @@ jobs:
       - name: Create Linked Service
         shell: bash
         run: |
-          # Define variables
-          RESOURCE_GROUP_NAME="lineagempg"
-          SYNAPSE_WORKSPACE_NAME="lineagempg" # Replace with your Data Factory or Synapse name
-          KEY_VAULT_NAME="testfunckeyvault1"
-          KEY_VAULT_SECRET_NAME="testfunckeyvaultgit1"
-          LINKED_SERVICE_NAME="funclinkkeyvaultgit" # Replace with the desired linked service name
-
-          # Debug Azure CLI
-            echo "Checking Azure account..."
-            az account show
-
-          # Retrieve Key Vault secret value
-            echo "Retrieving Key Vault secret value..."
-            KEY_VAULT_SECRET_VALUE=$(az keyvault secret show --vault-name "$KEY_VAULT_NAME" --name "$KEY_VAULT_SECRET_NAME" --query "value" -o tsv)
-
-            if [ -z "$KEY_VAULT_SECRET_VALUE" ]; then
-            echo "Error: Secret '$KEY_VAULT_SECRET_NAME' not found in Key Vault '$KEY_VAULT_NAME'."
-             exit 1
-            fi
-
-          # Retrieve Key Vault base URL
-            echo "Retrieving Key Vault base URL..."
-            KEY_VAULT_BASE_URL="https://$KEY_VAULT_NAME.vault.azure.net/"
-
-          # Create Linked Service JSON payload
-            echo "Creating JSON payload for Linked Service..."
-            LINKED_SERVICE_PROPERTIES=$(cat <<EOF
-              {
-                "properties": {
-                  "type": "AzureKeyVault",
-                  "typeProperties": {
-                    "baseUrl": "$KEY_VAULT_BASE_URL",
-                    "secretName": "$KEY_VAULT_SECRET_NAME",
-                    "secretValue": "$KEY_VAULT_SECRET_VALUE"
+                # Define variables
+                RESOURCE_GROUP_NAME="lineagempg"
+                SYNAPSE_WORKSPACE_NAME="lineagempg" # Replace with your Synapse workspace name
+                KEY_VAULT_NAME="testfunckeyvault1"
+                KEY_VAULT_SECRET_NAME=" testfunckeyvaultgit1" # Replace with your Key Vault secret name
+                LINKED_SERVICE_NAME="funclinkkeyvaultgit" # Replace with the desired linked service name
+                
+                # Debug Azure CLI
+                echo "Checking Azure account..."
+                az account show
+                
+                # Retrieve Key Vault secret value
+                echo "Retrieving Key Vault secret value..."
+                KEY_VAULT_SECRET_VALUE=$(az keyvault secret show --vault-name "$KEY_VAULT_NAME" --name "$KEY_VAULT_SECRET_NAME" --query "value" -o tsv)
+                
+                if [ -z "$KEY_VAULT_SECRET_VALUE" ]; then
+                  echo "Error: Secret '$KEY_VAULT_SECRET_NAME' not found in Key Vault '$KEY_VAULT_NAME'."
+                  exit 1
+                fi
+                
+                # Retrieve Key Vault base URL
+                echo "Retrieving Key Vault base URL..."
+                KEY_VAULT_BASE_URL="https://$KEY_VAULT_NAME.vault.azure.net/"
+                
+                # Create Linked Service JSON payload
+                echo "Creating JSON payload for Linked Service..."
+                LINKED_SERVICE_PROPERTIES=$(cat <<EOF
+                {
+                  "properties": {
+                    "type": "AzureKeyVault",
+                    "typeProperties": {
+                      "baseUrl": "$KEY_VAULT_BASE_URL",
+                      "secretName": "$KEY_VAULT_SECRET_NAME",
+                      "secretValue": "$KEY_VAULT_SECRET_VALUE"
+                    }
                   }
                 }
-              }
-              EOF
-            )
-            
-            # Create Linked Service in Azure Synapse
-            echo "Creating Linked Service in Azure Synapse..."
-            az synapse linked-service create \
-              --workspace-name "$SYNAPSE_WORKSPACE_NAME" \
-              --name "$LINKED_SERVICE_NAME" \
-              --properties "$LINKED_SERVICE_PROPERTIES"
-            
-            echo "Linked Service has been successfully created."
+                EOF
+                )
+                
+                # Create Linked Service in Azure Synapse
+                echo "Creating Linked Service in Azure Synapse..."
+                az synapse linked-service create \
+                  --workspace-name "$SYNAPSE_WORKSPACE_NAME" \
+                  --name "$LINKED_SERVICE_NAME" \
+                  --properties "$LINKED_SERVICE_PROPERTIES"
+                
+                echo "Linked Service has been successfully created."
