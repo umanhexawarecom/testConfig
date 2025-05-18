@@ -73,6 +73,10 @@ jobs:
                 }
                 EOF
                 
+                # Validate JSON file
+                echo "Validating JSON file..."
+                cat linkedservice.json
+                
                 # Create Linked Service in Azure Synapse
                 echo "Creating Linked Service in Azure Synapse..."
                 az synapse linked-service create \
