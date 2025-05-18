@@ -1,0 +1,75 @@
+name: Add linked service
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."
+
+jobs:
+   create-linked-service:
+    name: Create linked service for Azure synapse pipeline to use Azure Key Vault for Az Func
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    environment: "dev"
+    env:
+      NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
+
+    steps:
+      # Step 1: Check Out Repository
+      - name: Check Out Repository
+        id: checkout_repository
+        uses: actions/checkout@v4
+
+      # Step 2: Login to Azure
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+     # Step 3: Create Linked Service to Key Vault Secret
+      - name: Create Linked Service
+        shell: bash
+        run: |
+          # Define variables
+          RESOURCE_GROUP_NAME="lineagempg"
+          DATA_FACTORY_NAME="lineagempg" # Replace with your Data Factory or Synapse name
+          KEY_VAULT_NAME="testfunckeyvault1"
+          KEY_VAULT_SECRET_NAME="testfunckeyvaultgit1"
+          LINKED_SERVICE_NAME="funclinkkeyvaultgit" # Replace with the desired linked service name
+
+          # Debug Azure CLI
+          echo "Checking Azure account..."
+          az account show
+
+          # Retrieve Key Vault secret URI
+          echo "Retrieving Key Vault secret URI..."
+          KEY_VAULT_SECRET_URI=$(az keyvault secret show --vault-name "$KEY_VAULT_NAME" --name "$KEY_VAULT_SECRET_NAME" --query "id" -o tsv)
+
+          # Create Linked Service JSON payload
+          echo "Creating JSON payload for Linked Service..."
+          LINKED_SERVICE_PROPERTIES=$(cat <<EOF
+          {
+            "properties": {
+              "type": "AzureKeyVault",
+              "typeProperties": {
+                "baseUrl": "https://$KEY_VAULT_NAME.vault.azure.net/"
+              }
+            }
+          }
+          EOF
+          )
+
+          # Create Linked Service in Azure Synapse
+          echo "Creating Linked Service in Azure Data Factory..."
+          az datafactory linked-service create \
+            --resource-group "$RESOURCE_GROUP_NAME" \
+            --factory-name "$DATA_FACTORY_NAME" \
+            --linked-service-name "$LINKED_SERVICE_NAME" \
+            --properties "$LINKED_SERVICE_PROPERTIES"
+
+          echo "Linked Service has been successfully created."
