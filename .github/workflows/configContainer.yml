@@ -33,6 +33,7 @@ jobs:
         id: parse_config
         run: |
           import yaml
+          import os
           with open('config/configyml.yml', 'r') as f:
               config = yaml.safe_load(f)
           # Ensure the parsed content is a dictionary
