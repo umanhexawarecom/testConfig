@@ -42,11 +42,11 @@ jobs:
         shell: pwsh
         run: |
           # Define environment-specific variables
-          environment = "${{ github.event.inputs.environment }}"
-          resourceGroup = "lineagempg"
-          functionAppName = "testpostteamsgit"
-          storageAccountName = "testpostteamsstoresgit"
-          appServicePlan = "ASP-lineagempg-a4e0"
+          environment="${{ github.event.inputs.environment }}"
+          resourceGroup="lineagempg"
+          functionAppName="testpostteamsgit"
+          storageAccountName="testpostteamsstoresgit"
+          appServicePlan="ASP-lineagempg-a4e0"
           
           # Create the storage account if it doesn't exist
           echo "Creating or updating Function App: $functionAppName"
