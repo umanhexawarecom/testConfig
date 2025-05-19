@@ -53,9 +53,9 @@ jobs:
           az storage account create --name $storageAccountName --location ${{ env.AZURE_LOCATION }} --resource-group $resourceGroup --sku Standard_LRS
 
            # Create the Function App if it doesn't exist
-           az functionapp create --resource-group $resourceGroup --consumption-plan-location ${{ env.AZURE_LOCATION }} 
-              --runtime ${{ env.AZURE_RUNTIME }} --runtime-version ${{ env.AZURE_RUNTIME_VERSION }} 
-              --functions-version ${{ env.AZURE_FUNCTIONS_VERSION }} --name $functionAppName 
+           az functionapp create --resource-group $resourceGroup --consumption-plan-location ${{ env.AZURE_LOCATION }} \
+              --runtime ${{ env.AZURE_RUNTIME }} --runtime-version ${{ env.AZURE_RUNTIME_VERSION }} \
+              --functions-version ${{ env.AZURE_FUNCTIONS_VERSION }} --name $functionAppName \
               --storage-account $storageAccountName 
             
 # Zip the Azure func folder
