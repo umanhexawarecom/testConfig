@@ -1,13 +1,19 @@
 name: Create Container, Upload Config File
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "speciides env"
 
 jobs:
   exec:
     name: Create Container, Upload Config File
     runs-on: ubuntu-latest
     continue-on-error: false
-    environment: "dev"
+    environment: "config"
     env:
       NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
 
@@ -34,7 +40,7 @@ jobs:
         run: |
           import yaml
           import os
-          with open('config/configyml.yml', 'r') as f:
+          with open('${{ inputs.environment }}/configyml.yml', 'r') as f:
               config = yaml.safe_load(f)
           # Ensure the parsed content is a dictionary
           if not isinstance(config, dict):
