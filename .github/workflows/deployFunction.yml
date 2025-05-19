@@ -1,88 +1,89 @@
-
 name: Azure Function Deploy for pipeline failure teams messages
-on:
-   workflow_dispatch: # Allows manual trigger of the workflow
-    inputs:
-      environment:
-        description: 'Target environment (e.g., dev, staging, prod)'
-        required: true
-        default: 'dev'
 
-env:
-  AZURE_LOCATION: eastus
-  AZURE_RUNTIME: node
-  AZURE_RUNTIME_VERSION: 22
-  AZURE_FUNCTIONS_VERSION: 4
+on:   
+  workflow_dispatch: # Allows manual trigger of the workflow   
+    inputs:   
+      environment:   
+        description: 'Target environment (e.g., dev, staging, prod)'   
+        required: true   
+        default: 'dev'   
 
-jobs:
-  deploy:
+env:   
+  AZURE_LOCATION: eastus   
+  AZURE_RUNTIME: node   
+  AZURE_RUNTIME_VERSION: 22   
+  AZURE_FUNCTIONS_VERSION: 4   
+
+jobs:   
+  deploy:   
     runs-on: ubuntu-latest
-    
-    steps:    
-    
-      # Checkout repository
-      - name: Check Out Repository
-        id: checkout_repository
+
+    steps:        
+
+      # Checkout repository   
+      - name: Check Out Repository   
+        id: checkout_repository   
         uses: actions/checkout@v3
 
-      # Step 2: Set up Azure CLI
+      # Step 1: Set up Azure CLI
       - name: Set up Azure CLI
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      #- name: Install Az Module
-      #  run: |
-      #   Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
-      #   Import-Module Az
-      #  shell: pwsh
-
-      # Step 3: Deploy Azure Function App and HTTP Trigger
-      - name: Deploy Azure Function App
-        shell: bash
-        run: |
-          # Define environment-specific variables
+      # Step 2: Deploy Azure Function App and HTTP Trigger   
+      - name: Deploy Azure Function App   
+        run: |   
+          # Define environment-specific variables   
           environment="${{ github.event.inputs.environment }}"
           resourceGroup="lineagempg"
           resourceGroup1="lineagempg"
-          functionAppName="testpostteamsgit"
+          functionAppName="testpostteamsgit1"
           functionName="testpostteamsgitcode"
           storageAccountName="testpostteamsstoresgit"
           appServicePlan="ASP-lineagempg-a4e0"
-          
-          # Create the storage account if it doesn't exist
-          echo "Creating or updating Function App: $functionAppName"
-          az storage account create --name $storageAccountName --location ${{ env.AZURE_LOCATION }} --resource-group $resourceGroup --sku Standard_LRS
 
-           # Create the Function App if it doesn't exist
-           az functionapp create --resource-group $resourceGroup --consumption-plan-location ${{ env.AZURE_LOCATION }} \
-              --runtime ${{ env.AZURE_RUNTIME }} --runtime-version ${{ env.AZURE_RUNTIME_VERSION }} \
-              --functions-version ${{ env.AZURE_FUNCTIONS_VERSION }} --name $functionAppName \
-              --storage-account $storageAccountName 
-            
-# Zip the Azure func folder
-      - name: Zip the Azure func folder       
-        run: |
-          #cd ./AZfuncDeploy
-          #ls -ld ./AZfuncDeploy
-          #ls -ld ../AZfuncDeploy
+          # Check if the storage account exists 
+          echo "Checking if storage account exists: $storageAccountName" 
+          if ! az storage account show --name "$storageAccountName" --resource-group "$resourceGroup" --subscription "$subscriptionId" &>/dev/null; then 
+            echo "Storage account does not exist. Creating storage account: $storageAccountName" 
+            az storage account create --name "$storageAccountName" --location "$AZURE_LOCATION" --resource-group "$resourceGroup" --sku Standard_LRS --subscription "$subscriptionId"
+          else 
+            echo "Storage account already exists: $storageAccountName" 
+          fi        
+
+          # Check if the function app exists 
+          echo "Checking if function app exists: $functionAppName" 
+          if ! az functionapp show --name "$functionAppName" --resource-group "$resourceGroup" --subscription "$subscriptionId" &>/dev/null; then 
+            echo "Function app does not exist. Creating function app: $functionAppName" 
+            az functionapp create --resource-group "$resourceGroup" --consumption-plan-location "$AZURE_LOCATION" \
+              --runtime "$AZURE_RUNTIME" --runtime-version "$AZURE_RUNTIME_VERSION" \
+              --functions-version "$AZURE_FUNCTIONS_VERSION" --name "$functionAppName" \
+              --storage-account "$storageAccountName" --subscription "$subscriptionId"
+          else 
+            echo "Function app already exists: $functionAppName" 
+          fi 
+
+      # Step 3: Zip the Azure Function folder   
+      - name: Zip the Azure Function folder   
+        run: |   
+          mkdir -p funcDeployment 
           zip -r ./funcDeployment/postTeamsMsg.zip ./*
 
-      - name: Show proxy settings in ENV 
-        shell: pwsh
-        run: |
-            echo $resourceGroup
-            echo $functionAppName
-       
+      # Step 4: Overwrite the Function App's Contents   
+      - name: Build and Deploy to Azure   
+        run: |   
+          # Define environment-specific variables   
+          resourceGroup="lineagempg"   
+          functionAppName="testpostteamsgit1"   
+          subscriptionId="${{ secrets.AZURE_SUBSCRIPTION_ID }}" # Ensure subscription is explicitly passed
 
+          # Ensure variables are not empty   
+          if [ -z "$resourceGroup" ] [ -z "$functionAppName" ]; then  
+            echo "Error: resourceGroup or functionAppName is not defined." 
+            exit 1 
+          fi 
 
-      # Build and Deploy to Azure
-      - name: Build and Deploy to Azure        
-        run: |
-          az functionapp deployment source config-zip --resource-group "lineagempg" --name  "testpostteamsgit" --src "./funcDeployment/postTeamsMsg.zip"
-         
-            
-
-
-             
-             
+          # Deploy the zipped function app (overwrite existing contents) 
+          echo "Deploying Function App: $functionAppName in Resource Group: $resourceGroup" 
+          az functionapp deployment source config-zip --resource-group "$resourceGroup" --name "$functionAppName" --src "./funcDeployment/postTeamsMsg.zip" --overwrite --subscription "$subscriptionId"
