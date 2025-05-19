@@ -76,7 +76,7 @@ jobs:
           # Define environment-specific variables   
           resourceGroup="lineagempg"   
           functionAppName="testpostteamsgit1"   
-          subscriptionId="${{ secrets.AZURE_SUBSCRIPTION_ID }}" # Ensure subscription is explicitly passed
+          #subscriptionId="${{ secrets.AZURE_SUBSCRIPTION_ID }}" # Ensure subscription is explicitly passed
 
           # Ensure variables are not empty   
           if [ -z "$resourceGroup" ] [ -z "$functionAppName" ]; then  
@@ -86,4 +86,4 @@ jobs:
 
           # Deploy the zipped function app (overwrite existing contents) 
           echo "Deploying Function App: $functionAppName in Resource Group: $resourceGroup" 
-          az functionapp deployment source config-zip --resource-group "$resourceGroup" --name "$functionAppName" --src "./funcDeployment/postTeamsMsg.zip" --overwrite --subscription "$subscriptionId"
+          az functionapp deployment source config-zip --resource-group "$resourceGroup" --name "$functionAppName" --src "./funcDeployment/postTeamsMsg.zip" --overwrite 
