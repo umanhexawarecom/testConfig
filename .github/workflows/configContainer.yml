@@ -41,17 +41,9 @@ jobs:
           #directoryName="teamsalertconfig"
           filePath="config/configUrl.csv"
           blobName="teamsalertconfig/configUrl.csv"
-
-           # Create the directory if it doesn't exist
-          if [ ! -d "$directoryName" ]; then
-            mkdir -p "$directoryName"
-            echo "Directory '$directoryName' created."
-          else
-            echo "Directory '$directoryName' already exists."
-          fi
-
+       
      
           # Upload the CSV file using service principal authentication
-          az storage blob upload --account-name $storageAccountName --auth-mode login --container-name $containerName --name $blobName --file $filePath
+          az storage blob upload --account-name $storageAccountName --auth-mode login --container-name $containerName --name $blobName --file $filePath --overwrite
 
           echo "Config File uploaded successfully to Azure Storage!"
