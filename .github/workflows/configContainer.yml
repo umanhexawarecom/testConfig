@@ -37,16 +37,16 @@ jobs:
               config = yaml.safe_load(f)
           # Ensure the parsed content is a dictionary
             if not isinstance(config, dict):
-            raise ValueError("The YAML file did not return a dictionary. Check the file format.")
+               raise ValueError("The YAML file did not return a dictionary. Check the file format.")
 
           # Write environment variables to the GitHub Environment file
             env_file_path = os.getenv('GITHUB_ENV')
             if not env_file_path:
-            raise ValueError("GITHUB_ENV environment file path is not set.")
+               raise ValueError("GITHUB_ENV environment file path is not set.")
 
             with open(env_file_path, 'a') as env_file:
-            for key, value in config.items():
-            env_file.write(f"{key}={value}\n")
+              for key, value in config.items():
+                  env_file.write(f"{key}={value}\n")
         shell: python
 
       # Login to Azure
