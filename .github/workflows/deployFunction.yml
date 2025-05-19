@@ -39,7 +39,7 @@ jobs:
 
       # Step 3: Deploy Azure Function App and HTTP Trigger
       - name: Deploy Azure Function App
-        shell: pwsh
+        shell: bash
         run: |
           # Define environment-specific variables
           environment="${{ github.event.inputs.environment }}"
