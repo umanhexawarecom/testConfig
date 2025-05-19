@@ -49,15 +49,15 @@ jobs:
         run: |
           # Define variables
           storageAccountName="lineagempg"         
-          containerName="configfilesteamslerts"
+          containerName="configfilesteamslertsgit"
           filePath="config/configUrl.csv"
           blobName="postteamsalerturlconfig.csv"
 
          
           # Create the container if it doesn't exist using service principal authentication
-            az storage container create --name "$containerName" --account-name "$storageAccountName" --auth-mode login
+          #  az storage container create --name "$containerName" --account-name "$storageAccountName" --auth-mode login
 
-            echo "Container created successfully to Azure Storage!"
+          #  echo "Container created successfully to Azure Storage!"
 
           # Upload the CSV file using service principal authentication
             az storage blob upload --account-name "$storageAccountName" --auth-mode login --container-name "$containerName" --name "$blobName" --file "$filePath"
