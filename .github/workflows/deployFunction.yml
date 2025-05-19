@@ -61,7 +61,7 @@ jobs:
               --storage-account $storageAccountName 
             
 # Zip the Azure func folder
-      - name: Zip the Azure func folder        
+      - name: Zip the Azure func folder       
         run: |
           #cd ./AZfuncDeploy
           #ls -ld ./AZfuncDeploy
@@ -69,6 +69,7 @@ jobs:
           zip -r ./funcDeployment/postTeamsMsg.zip ./*
 
       - name: Show proxy settings in ENV 
+        shell: pwsh
         run: |
             echo $resourceGroup
             echo $functionAppName
@@ -78,7 +79,7 @@ jobs:
       # Build and Deploy to Azure
       - name: Build and Deploy to Azure        
         run: |
-          az functionapp deployment source config-zip --resource-group $resourceGroup1 --name  $functionName --src "./funcDeployment/postTeamsMsg.zip"
+          az functionapp deployment source config-zip --resource-group "lineagempg" --name  "testpostteamsgitcode" --src "./funcDeployment/postTeamsMsg.zip"
          
             
 
