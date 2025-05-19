@@ -38,8 +38,17 @@ jobs:
           # Define variables
           storageAccountName="lineagempg86c4"
           containerName="azure-webjobs-hosts"
+          #directoryName="teamsalertconfig"
           filePath="config/configUrl.csv"
-          blobName="configUrl.csv"
+          blobName="teamsalertconfig/configUrl.csv"
+
+           # Create the directory if it doesn't exist
+          if [ ! -d "$directoryName" ]; then
+            mkdir -p "$directoryName"
+            echo "Directory '$directoryName' created."
+          else
+            echo "Directory '$directoryName' already exists."
+          fi
 
      
           # Upload the CSV file using service principal authentication
