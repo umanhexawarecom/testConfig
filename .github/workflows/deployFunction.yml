@@ -86,4 +86,4 @@ jobs:
 
           # Deploy the zipped function app (overwrite existing contents) 
           echo "Deploying Function App: $functionAppName in Resource Group: $resourceGroup" 
-          az functionapp deployment source config-zip --resource-group "$resourceGroup" --name "$functionAppName" --src "./funcDeployment/postTeamsMsg.zip" --overwrite 
+          az functionapp deployment source config-zip --resource-group "$resourceGroup" --name "$functionAppName" --src "./funcDeployment/postTeamsMsg.zip"  
