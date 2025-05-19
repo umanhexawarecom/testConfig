@@ -47,7 +47,7 @@ jobs:
             with open(env_file_path, 'a') as env_file:
             for key, value in config.items():
             env_file.write(f"{key}={value}\n")
-            shell: python
+        shell: python
 
       # Login to Azure
       - name: Azure Login
