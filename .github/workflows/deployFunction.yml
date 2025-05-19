@@ -44,7 +44,9 @@ jobs:
           # Define environment-specific variables
           environment="${{ github.event.inputs.environment }}"
           resourceGroup="lineagempg"
+          resourceGroup1="lineagempg"
           functionAppName="testpostteamsgit"
+          functionName="testpostteamsgitcode"
           storageAccountName="testpostteamsstoresgit"
           appServicePlan="ASP-lineagempg-a4e0"
           
@@ -76,7 +78,7 @@ jobs:
       # Build and Deploy to Azure
       - name: Build and Deploy to Azure        
         run: |
-          az functionapp deployment source config-zip --resource-group $resourceGroup --name  $functionAppName --src "./funcDeployment/postTeamsMsg.zip"
+          az functionapp deployment source config-zip --resource-group $resourceGroup1 --name  $functionName --src "./funcDeployment/postTeamsMsg.zip"
          
             
 
