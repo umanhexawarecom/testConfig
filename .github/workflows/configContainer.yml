@@ -5,7 +5,7 @@ on:
       environment:
         required: true
         type: string
-        default: "dev"
+        default: "config"
         description: "speciides env"
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     name: Create Container, Upload Config File
     runs-on: ubuntu-latest
     continue-on-error: false
-    environment: "config"
+    environment: "dev"
     env:
       NO_PROXY: .file.core.windows.net,.vault.azure.net,.blob.core.windows.net,.dfs.core.windows.net,.dev.azuresynapse.net,.sql.azuresynapse.net,registry.npmjs.org,www.powershellgallery.com
 
