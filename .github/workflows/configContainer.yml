@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           # Define variables
-          storageAccountName=${{ secrets.STORAGE_ACCOUNT_NAME }}
+          storageAccountName=${{FILEUPLOADSECRET.STORAGE_ACCOUNT_NAME }}
           containerName="azure-webjobs-hosts"
           #directoryName="teamsalertconfig"
           filePath="config/configUrl.csv"
