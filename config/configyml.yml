@@ -1,0 +1,4 @@
+storageAccountName:lineagempg86c4
+containerName:azure-webjobs-hosts         
+filePath:config/configUrl.csv
+blobName:teamsalertconfig/configUrl.csv
