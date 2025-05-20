@@ -16,7 +16,7 @@ on:
       function_name:
         required: true
         type: string
-        default: "testpostteamsgitGrimGit1"
+        default: "testpostteamsgitGrimGit2"
         description: "Name of the function."
       storage_account_name:
         required: true
