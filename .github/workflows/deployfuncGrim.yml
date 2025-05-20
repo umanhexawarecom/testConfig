@@ -1,0 +1,90 @@
+name: Azure Function Deploy for Pipeline Failure Teams Messages
+
+on:
+  workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."
+      function_directory:
+        required: true
+        type: string
+        default: "funcDeployment"
+        description: "Specifies the directory of the Azure Function."
+      function_name:
+        required: true
+        type: string
+        default: "testpostteamsgitGrim"
+        description: "Name of the function."
+      function_rgp:
+        required: true
+        type: string
+        default: "lineagempg"
+        description: "Name of the Resource Group."
+      SP_TENANTID:
+        required: true
+        description: "Specifies the tenant ID for the deployment."
+      SP_CLIENTID:
+        required: true
+        description: "Specifies the client ID."
+      SP_SECRET:
+        required: true
+        description: "Specifies the client secret."
+      SUBSCRIPTIONID:
+        required: true
+        description: "Specifies the subscription ID."
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Function App Deploy
+    environment: ${{ inputs.environment }}
+    continue-on-error: false
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Azure CLI
+      - name: Set up Azure CLI
+        uses: azure/login@v2
+        with:
+          creds: >
+            {
+              "clientId": "${{ secrets.clientId }}",
+              "clientSecret": "${{ secrets.clientSecret }}",
+              "subscriptionId": "${{ secrets.subscriptionId }}",
+              "tenantId": "${{ secrets.tenantId }}"
+            }
+
+      # Step 3: Deploy Azure Function App
+      - name: Deploy Azure Function App
+        run: |
+          az functionapp create \
+            --resource-group ${{ inputs.function_rgp }} \
+            --consumption-plan-location eastus \
+            --name ${{ inputs.function_name }} \
+            --storage-account "testpostteamsstoresgit" \
+            --runtime node \
+            --runtime-version 22
+
+      # Step 4: Set Function App Settings
+      - name: Set Function App Settings
+        run: |
+          az functionapp config appsettings set \
+            --name ${{ inputs.function_name }} \
+            --resource-group ${{ inputs.function_rgp }} \
+            --settings "ENVIRONMENT=${{ inputs.environment }}"
+
+      # Step 5: Deploy Function Code
+      - name: Deploy Function Code
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ inputs.function_name }}
+          package: ${{ github.workspace }}/${{ inputs.function_directory }}
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
+          remote-build: true
