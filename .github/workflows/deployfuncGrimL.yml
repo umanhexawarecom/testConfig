@@ -1,0 +1,127 @@
+name: Azure Function Deploy for Pipeline Failure Teams Messages
+
+on:
+  workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."
+      function_directory:
+        required: true
+        type: string
+        default: "funcDeployment"
+        description: "Specifies the directory of the Azure Function."
+      function_name:
+        required: true
+        type: string
+        default: " testpostteamsgitGrimGit1"
+        description: "Name of the function."
+      storage_account_name:
+        required: true
+        type: string
+        default: " testpostteamsgitGrimStorage"
+        description: "Name of the storage account of function app."
+      function_rgp:
+        required: true
+        type: string
+        default: "lineagempg"
+        description: "Name of the Resource Group."
+      azure_location:
+        required: true
+        type: string
+        default: "UKSouth"
+        description: "Name of the Location where Function App is to be installed."
+      azure_runtime:
+        required: true
+        type: string
+        default: "powershell"
+        description: "Name of the Azure runtime environment."
+      azure_runtime_version:
+        required: true
+        type: string
+        default: "7"
+        description: "Name of the Azure runtime version."
+      azure_function_version:
+        required: true
+        type: string
+        default: "powershell"
+        description: "Name of the Azure function version."
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Function App Deploy
+    environment: ${{ inputs.environment }}
+    continue-on-error: false
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Azure Login
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 3: Check if the storage account exists
+      - name: Check Storage Account
+        run: |
+          echo "Checking if storage account exists: ${{ inputs.storage_account_name }}"
+          if ! az storage account show --name ${{ inputs.storage_account_name }} --resource-group ${{ inputs.function_rgp }} --subscription "$subscriptionId" &>/dev/null; then
+            echo "Storage account does not exist. Creating storage account: ${{ inputs.storage_account_name }}"
+            az storage account create --name ${{ inputs.storage_account_name }} \
+                                      --location ${{ inputs.azure_location }} \
+                                      --resource-group ${{ inputs.function_rgp }} \
+                                      --sku Standard_LRS \
+                                      --subscription "$subscriptionId"
+          else
+            echo "Storage account already exists: ${{ inputs.storage_account_name }}"
+          fi
+
+      # Step 4: Check if the function app exists
+      - name: Check Function App
+        run: |
+          echo "Checking if function app exists: ${{ inputs.function_name }}"
+          if ! az functionapp show --name ${{ inputs.function_name }} --resource-group ${{ inputs.function_rgp }} --subscription "$subscriptionId" &>/dev/null; then
+            echo "Function app does not exist. Creating function app: ${{ inputs.function_name }}"
+            az functionapp create --resource-group ${{ inputs.function_rgp }} \
+                                  --consumption-plan-location ${{ inputs.azure_location }} \
+                                  --runtime ${{ inputs.azure_runtime }} \
+                                  --runtime-version ${{ inputs.azure_runtime_version }} \
+                                  --functions-version ${{ inputs.azure_function_version }} \
+                                  --name ${{ inputs.function_name }} \
+                                  --storage-account ${{ inputs.storage_account_name }} \
+                                  --subscription "$subscriptionId"
+          else
+            echo "Function app already exists: ${{ inputs.function_name }}"
+          fi
+
+      # Step 5: Zip the Azure Function folder
+      - name: Zip the Azure Function folder
+        run: |
+          mkdir -p funcDeployment
+          zip -r ./funcDeployment/postTeamsMsg.zip ./*
+
+      # Step 6: Deploy the zipped function app
+      - name: Deploy to Azure
+        run: |
+          # Define environment-specific variables
+          resourceGroup=${{ inputs.function_rgp }}
+          functionAppName=${{ inputs.function_name }}
+          
+          # Ensure variables are not empty
+          if [ -z "${{ inputs.function_rgp }}" ] [ -z "${{ inputs.function_name }}" ]; then
+            echo "Error: resourceGroup or functionAppName is not defined."
+            exit 1
+          fi
+
+          # Deploy the zipped function app (overwrite existing contents)
+          echo "Deploying Function App: ${{ inputs.function_name }} in Resource Group: ${{ inputs.function_rgp }}"
+          az functionapp deployment source config-zip --resource-group ${{ inputs.function_rgp }} \
+                                                      --name ${{ inputs.function_name }} \
+                                                      --src "./funcDeployment/postTeamsMsg.zip"
