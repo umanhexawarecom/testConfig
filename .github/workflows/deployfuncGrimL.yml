@@ -16,12 +16,12 @@ on:
       function_name:
         required: true
         type: string
-        default: " testpostteamsgitGrimGit1"
+        default: "testpostteamsgitGrimGit1"
         description: "Name of the function."
       storage_account_name:
         required: true
         type: string
-        default: " testpostteamsggs"
+        default: "testpostteamsggs"
         description: "Name of the storage account of function app."
       function_rgp:
         required: true
