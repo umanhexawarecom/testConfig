@@ -111,8 +111,8 @@ jobs:
       - name: Deploy to Azure
         run: |
           # Define environment-specific variables
-          resourceGroup=${{ inputs.function_rgp }}
-          functionAppName=${{ inputs.function_name }}
+          function_rgp=${{ inputs.function_rgp }}
+          function_name=${{ inputs.function_name }}
           
           # Ensure variables are not empty
           if [ -z "${{ inputs.function_rgp }}" ] [ -z "${{ inputs.function_name }}" ]; then
