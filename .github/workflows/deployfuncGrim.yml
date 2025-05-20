@@ -23,19 +23,7 @@ on:
         type: string
         default: "lineagempg"
         description: "Name of the Resource Group."
-      SP_TENANTID:
-        required: true
-        description: "Specifies the tenant ID for the deployment."
-      SP_CLIENTID:
-        required: true
-        description: "Specifies the client ID."
-      SP_SECRET:
-        required: true
-        description: "Specifies the client secret."
-      SUBSCRIPTIONID:
-        required: true
-        description: "Specifies the subscription ID."
-
+     
 jobs:
   deploy:
     runs-on: ubuntu-latest
