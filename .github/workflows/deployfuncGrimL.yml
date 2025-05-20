@@ -87,7 +87,7 @@ jobs:
       - name: Check Function App
         run: |
           echo "Checking if function app exists: ${{ inputs.function_name }}"
-          if ! az functionapp show --name ${{ inputs.function_name }} --resource-group ${{ inputs.function_rgp }} --subscription "$subscriptionId" &>/dev/null; then
+          if ! az functionapp show --name ${{ inputs.function_name }} --resource-group ${{ inputs.function_rgp }} --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}" &>/dev/null; then
             echo "Function app does not exist. Creating function app: ${{ inputs.function_name }}"
             az functionapp create --resource-group ${{ inputs.function_rgp }} \
                                   --consumption-plan-location ${{ inputs.azure_location }} \
@@ -96,7 +96,7 @@ jobs:
                                   --functions-version ${{ inputs.azure_function_version }} \
                                   --name ${{ inputs.function_name }} \
                                   --storage-account ${{ inputs.storage_account_name }} \
-                                  --subscription "$subscriptionId"
+                                  --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
           else
             echo "Function app already exists: ${{ inputs.function_name }}"
           fi
