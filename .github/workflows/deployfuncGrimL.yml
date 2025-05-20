@@ -41,7 +41,7 @@ on:
       azure_runtime_version:
         required: true
         type: string
-        default: "7"
+        default: "7.4"
         description: "Name of the Azure runtime version."
       azure_function_version:
         required: true
