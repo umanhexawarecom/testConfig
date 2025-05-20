@@ -16,7 +16,7 @@ on:
       function_name:
         required: true
         type: string
-        default: "testpostteamsgitGrim"
+        default: "testpostteamsgitGrim1"
         description: "Name of the function."
       function_rgp:
         required: true
@@ -44,15 +44,15 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Step 3: Deploy Azure Function App
-      - name: Deploy Azure Function App
-        run: |
-          az functionapp create \
-            --resource-group ${{ inputs.function_rgp }} \
-            --consumption-plan-location eastus \
-            --name ${{ inputs.function_name }} \
-            --storage-account "testpostteamsstoresgit" \
-            --runtime node \
-            --runtime-version 22
+      #- name: Deploy Azure Function App
+      #  run: |
+      #    az functionapp create \
+      #      --resource-group ${{ inputs.function_rgp }} \
+      #      --consumption-plan-location eastus \
+      #      --name ${{ inputs.function_name }} \
+      #      --storage-account "testpostteamsstoresgit" \
+      #      --runtime node \
+      #      --runtime-version 22
 
       # Step 4: Set Function App Settings
       - name: Set Function App Settings
