@@ -16,7 +16,7 @@ on:
       function_name:
         required: true
         type: string
-        default: "testpostteamsgitGrimGit2"
+        default: "testpostteamsgitGrimGit"
         description: "Name of the function."
       storage_account_name:
         required: true
@@ -31,7 +31,7 @@ on:
       azure_location:
         required: true
         type: string
-        default: "WestEurope"
+        default: "UKSouth"
         description: "Name of the Location where Function App is to be installed."
       azure_runtime:
         required: true
