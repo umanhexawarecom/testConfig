@@ -21,7 +21,7 @@ on:
       storage_account_name:
         required: true
         type: string
-        default: " testpostteamsgitGrimStorage"
+        default: " testpostteamsgitgrimstorage"
         description: "Name of the storage account of function app."
       function_rgp:
         required: true
