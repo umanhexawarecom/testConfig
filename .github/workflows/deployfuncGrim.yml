@@ -36,17 +36,12 @@ jobs:
       - name: Check Out Repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Azure CLI
-      - name: Set up Azure CLI
+    # Login to Azure
+      - name: Azure Login
+        id: azure_login
         uses: azure/login@v2
         with:
-          creds: >
-            {
-              "clientId": "${{ secrets.clientId }}",
-              "clientSecret": "${{ secrets.clientSecret }}",
-              "subscriptionId": "${{ secrets.subscriptionId }}",
-              "tenantId": "${{ secrets.tenantId }}"
-            }
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Step 3: Deploy Azure Function App
       - name: Deploy Azure Function App
