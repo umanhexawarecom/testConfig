@@ -46,7 +46,7 @@ on:
       azure_function_version:
         required: true
         type: string
-        default: "powershell"
+        default: "4"
         description: "Name of the Azure function version."
 
 jobs:
