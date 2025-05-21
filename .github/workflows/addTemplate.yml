@@ -29,9 +29,9 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Set the Azure subscription
-      - name: Set Azure Subscription
-        run: |
-          az account set --subscription "${{ secrets.subscriptionId }}"
+      #- name: Set Azure Subscription
+      #  run: |
+      #    az account set --subscription "${{ secrets.subscriptionId }}"
 
 
       # Deploy the Synapse template
