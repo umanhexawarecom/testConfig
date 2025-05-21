@@ -44,8 +44,8 @@ jobs:
 
          # Deploy the template
          az deployment group create \
-           --name "$SYNAPSE_WORKSPACE" \
-           --resource-group "$RESOURCE_GROUP" \
+           --name "lineagempg" \
+           --resource-group "lineagempg" \
            --template-file "$TEMPLATE_FILE" \
            --parameters "$PARAMETERS_FILE"
 
