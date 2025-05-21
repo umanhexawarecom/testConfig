@@ -1,4 +1,4 @@
-name: Azure Function Deploy for Pipeline Failure Teams Messages
+name: add Template
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
