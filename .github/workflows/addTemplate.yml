@@ -1,0 +1,58 @@
+name: Azure Function Deploy for Pipeline Failure Teams Messages
+
+on:
+  workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."    
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Function App Deploy
+    environment: ${{ inputs.environment }}
+    continue-on-error: false
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Azure Login
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Set the Azure subscription
+      - name: Set Azure Subscription
+        run: |
+          az account set --subscription "${{ secrets.subscriptionId }}"
+
+
+      # Deploy the Synapse template
+      - name: Deploy Synapse Template
+        run: |
+         RESOURCE_GROUP="lineagempg"
+         SYNAPSE_WORKSPACE="lineagempg"
+         TEMPLATE_FILE="config/template.json"
+         PARAMETERS_FILE="config/parameter.json"
+
+         # Deploy the template
+         az synapse workspace deployment create \
+           --name "$SYNAPSE_WORKSPACE" \
+           --resource-group "$RESOURCE_GROUP" \
+           --template-file "$TEMPLATE_FILE" \
+           --parameters "$PARAMETERS_FILE"
+
+      # Validate the deployment
+      - name: Validate Deployment
+        run: |
+         az deployment group validate \
+          --resource-group "lineagempg" \
+          --template-file "config/template.json" \
+          --parameters "config/parameter.json"
