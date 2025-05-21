@@ -4,11 +4,16 @@
   "parameters": {
     "workspaceName": {
       "type": "string",
-      "metadata": "Workspace name",
+      "metadata": {
+        "description": "Workspace name"
+      },
       "defaultValue": "lineagempg"
     },
-    " AzureFunctionGrimLink": {
-      "type": "string"
+    "linkedServiceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the linked service"
+      }
     }
   },
   "variables": {
@@ -26,7 +31,7 @@
             "type": "AzureFunctionActivity",
             "dependsOn": [],
             "policy": {
-              "timeout": "0.12:00:00",
+              "timeout": "PT12H",
               "retry": 0,
               "retryIntervalInSeconds": 30,
               "secureOutput": false,
@@ -43,16 +48,15 @@
               "method": "POST"
             },
             "linkedServiceName": {
-              "referenceName": "[parameters(' AzureFunctionGrimLink')]",
-              "type": " LinkedServiceReference"
+              "referenceName": "[parameters('linkedServiceName')]",
+              "type": "LinkedServiceReference"
             }
           }
         ],
         "policy": {
           "elapsedTimeMetric": {}
         },
-        "annotations": [],
-        "lastPublishTime": "2025-05-20T11:16:00Z"
+        "annotations": []
       },
       "dependsOn": []
     }
