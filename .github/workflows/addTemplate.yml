@@ -43,7 +43,7 @@ jobs:
          PARAMETERS_FILE="config/parameter.json"
 
          # Deploy the template
-         az synapse workspace deployment create \
+         az deployment group create \
            --name "$SYNAPSE_WORKSPACE" \
            --resource-group "$RESOURCE_GROUP" \
            --template-file "$TEMPLATE_FILE" \
