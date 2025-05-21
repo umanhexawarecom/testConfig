@@ -4,6 +4,12 @@
   "parameters": {
     "workspaceName": {
       "value": "lineagempg"
-    }
+    }    
+  }
+
+  {
+    "AzureFunctionGrimLink": {
+      "value": "AzureFunctionGrimLink"
+    }    
   }
 }
