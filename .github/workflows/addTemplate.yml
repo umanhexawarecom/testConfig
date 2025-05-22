@@ -12,7 +12,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Function App Deploy
+    name: Template Deploy
     environment: ${{ inputs.environment }}
     continue-on-error: false
 
@@ -35,19 +35,19 @@ jobs:
 
 
       # Deploy the Synapse template
-      - name: Deploy Synapse Template
-        run: |
-         RESOURCE_GROUP="lineagempg"
-         SYNAPSE_WORKSPACE="lineagempg"
-         TEMPLATE_FILE="config/template.json"
-         PARAMETERS_FILE="config/parameter.json"
+      #- name: Deploy Synapse Template
+      #  run: |
+      #   RESOURCE_GROUP="lineagempg"
+      #   SYNAPSE_WORKSPACE="lineagempg"
+      #   TEMPLATE_FILE="config/template.json"
+      #   PARAMETERS_FILE="config/parameter.json"
 
          # Deploy the template
-         az deployment group create \
-           --name "lineagempg" \
-           --resource-group "lineagempg" \
-           --template-file "$TEMPLATE_FILE" \
-           --parameters "$PARAMETERS_FILE"
+       #  az deployment group create \
+       #    --name "lineagempg" \
+        #   --resource-group "lineagempg" \
+        #   --template-file "$TEMPLATE_FILE" \
+         #  --parameters "$PARAMETERS_FILE"
 
       # Validate the deployment
       - name: Validate Deployment
