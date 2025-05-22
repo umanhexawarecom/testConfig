@@ -43,11 +43,11 @@ jobs:
          PARAMETERS_FILE="config/parameter.json"
 
          # Deploy the template
-       #  az deployment group create \
-       #    --name "lineagempg" \
-        #   --resource-group "lineagempg" \
-        #   --template-file "$TEMPLATE_FILE" \
-         #  --parameters "$PARAMETERS_FILE"
+         az deployment group create \
+           --name "templatedeploygrim" \
+           --resource-group "lineagempg" \
+           --template-file "config/template.json" \
+           --parameters "config/parameter.json"
 
       # Validate the deployment
       - name: Validate Deployment
