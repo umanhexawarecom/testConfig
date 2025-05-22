@@ -35,12 +35,12 @@ jobs:
 
 
       # Deploy the Synapse template
-      #- name: Deploy Synapse Template
-      #  run: |
-      #   RESOURCE_GROUP="lineagempg"
-      #   SYNAPSE_WORKSPACE="lineagempg"
-      #   TEMPLATE_FILE="config/template.json"
-      #   PARAMETERS_FILE="config/parameter.json"
+      - name: Deploy Synapse Template
+        run: |
+         RESOURCE_GROUP="lineagempg"
+         SYNAPSE_WORKSPACE="lineagempg"
+         TEMPLATE_FILE="config/template.json"
+         PARAMETERS_FILE="config/parameter.json"
 
          # Deploy the template
        #  az deployment group create \
