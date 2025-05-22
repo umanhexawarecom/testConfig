@@ -44,7 +44,7 @@ jobs:
 
          # Deploy the template
          az deployment group create \
-           --name "templatedeploygrim" \
+           --name "lineagempgworkuk" \
            --resource-group "lineagempguk" \
            --template-file "config/template.json" \
            --parameters "config/parameter.json"
