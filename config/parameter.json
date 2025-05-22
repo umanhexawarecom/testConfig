@@ -5,8 +5,8 @@
     "workspaceName": {
       "value": "lineagempg"
     },
-    "linkedServiceName": {
-      "value": "AzureFunctionGrimLink"
+    "funcgrimgitlink": {
+      "value": "funcgrimgitlink"
     }
   }
 }
