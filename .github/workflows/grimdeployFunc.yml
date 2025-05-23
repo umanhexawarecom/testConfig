@@ -27,7 +27,7 @@ on:
 jobs:
    deploy:
     runs-on: ubuntu-latest
-    name: Function App Deploy
+    name: Function App Deploys
     environment: ${{ inputs.environment }}
     continue-on-error: false
     outputs:
