@@ -10,7 +10,7 @@ on:
         description: "Specifies the environment of the deployment."
       function_directory:
         required: true
-        default: "funcDeployment"
+        default: "funcDeployment1"
         type: string
         description: "Specifies the directory of the Azure Function."
       function_name:
