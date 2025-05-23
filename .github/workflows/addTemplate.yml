@@ -41,7 +41,6 @@ jobs:
           scope: resourcegroup
           resourceGroupName: lineagempguk
           template: config/templatedeploygit.json
-          parameters: >
-            config/paramater.json           
+          parameters: config/paramater.json           
           deploymentName: synapsedeploypipe
   
