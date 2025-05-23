@@ -1,4 +1,4 @@
-name: deploy Template
+name: deploy Template check
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
