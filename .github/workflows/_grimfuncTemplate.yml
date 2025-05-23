@@ -15,7 +15,7 @@ on:
         description: "Specifies the directory of the Azure Function."
       function_name:
         required: true
-        default: "grimfuncalert"
+        default: "testpostteamsgitGrimGit"
         type: string
         description: "Name of the function"
       function_rgp:
@@ -63,7 +63,7 @@ jobs:
         id: set_app_settings
         run: |  
 
-             az functionapp config appsettings set --name "grimfuncalert" --resource-group "lineagempguk" --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "STORAGE_ACCOUNT_NAME=lineagempguk" "CONTAINER=lineagempgukfile" 
+             az functionapp config appsettings set --name "testpostteamsgitGrimGit" --resource-group "lineagempguk" --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "STORAGE_ACCOUNT_NAME=lineagempguk" "CONTAINER=lineagempgukfile" 
 
       #       az functionapp config appsettings set --name ${{ inputs.function_name }} --resource-group "lineagempguk" --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "STORAGE_ACCOUNT_NAME=lineagempguk" "CONTAINER=lineagempgukfile" 
 
