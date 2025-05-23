@@ -1,4 +1,4 @@
-name: add Template
+name: deploy Template
 
 on:
   workflow_dispatch: # Allows manual trigger of the workflow
@@ -35,24 +35,14 @@ jobs:
 
 
       # Deploy the Synapse template
-      - name: Deploy Synapse Template
-        run: |
-         RESOURCE_GROUP="lineagempguk"
-         SYNAPSE_WORKSPACE="lineagempgworkuk"
-         TEMPLATE_FILE="config/template.json"
-         PARAMETERS_FILE="config/parameter.json"
-
-         # Deploy the template
-         az deployment group create \
-           --name "lineagempgworkuk" \
-           --resource-group "lineagempguk" \
-           --template-file "config/template.json" \
-           --parameters "config/parameter.json"
-
-      # Validate the deployment
-      - name: Validate Deployment
-        run: |
-         az deployment group validate \
-          --resource-group "lineagempg" \
-          --template-file "config/template.json" \
-          --parameters "config/parameter.json"
+      - name: Azure Deploy
+        uses: azure/arm-deploy@v1
+        with: 
+          scope: resourcegroup
+          resourceGroupName: "lineagempguk"
+          template: config/templategrim.json
+          parameters: >
+            config/paramatergrim.json
+            config/devparametergrim.json
+          deploymentName: synapsedeploypipe
+  
