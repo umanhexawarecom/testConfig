@@ -39,10 +39,10 @@ on:
 
 
 jobs:
-  deployment:
+  deploy:
+    runs-on: ubuntu-latest
     name: Function App Deploy
     environment: ${{ inputs.environment }}
-    runs-on: ["adp"]
     continue-on-error: false
 
     steps:
