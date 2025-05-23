@@ -39,7 +39,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with: 
           scope: resourcegroup
-          resourceGroupName: "lineagempguk"
+          resourceGroupName: lineagempguk
           template: config/templategrim.json
           parameters: >
             config/paramatergrim.json
