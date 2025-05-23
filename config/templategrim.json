@@ -1,0 +1,73 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+"contentVersion": "1.0.0.0",
+"parameters": {
+"workspaceName": { "type": "string" },
+"functionAppUrl": { "type": "string" },
+"keyVaultName": { "type": "string" },
+"keyVaultResourceId": { "type": "string" },
+"functionSecretName": {
+"type": "string",
+"defaultValue": "testfunckey"
+}
+},
+"resources": [
+{
+"type": "Microsoft.Synapse/workspaces/linkedservices",
+"apiVersion": "2021-06-01",
+"name": "[format('{0}/umagitgrimkey', parameters('workspaceName'))]",
+"properties": {
+"type": "AzureKeyVault",
+"typeProperties": {
+"baseUrl": "[format('https://{0}.vault.azure.net/', parameters('keyVaultName'))]"
+},
+"connectVia": {
+"referenceName": "AutoResolveIntegrationRuntime",
+"type": "IntegrationRuntimeReference"
+}
+}
+},
+{
+"type": "Microsoft.Synapse/workspaces/linkedservices",
+"apiVersion": "2021-06-01",
+"name": "[format('{0}/umagitgrimfunclink', parameters('workspaceName'))]",
+"properties": {
+"type": "AzureFunction",
+"typeProperties": {
+"functionAppUrl": "[parameters('functionAppUrl')]",
+"authentication": "FunctionKey",
+"functionKey": {
+"type": "AzureKeyVaultSecret",
+"store": {
+"referenceName": "umagitgrimkey",
+"type": "LinkedServiceReference"
+},
+"secretName": "[parameters('functionSecretName')]"
+}
+}
+}
+},
+{
+"type": "Microsoft.Synapse/workspaces/pipelines",
+"apiVersion": "2021-06-01",
+"name": "[format('{0}/umagitgrimfuncact-pipeline', parameters('workspaceName'))]",
+"properties": {
+"activities": [
+{
+"name": "umagitgrimfuncact",
+"type": "AzureFunctionActivity",
+"linkedServiceName": {
+"referenceName": "umagitgrimfunclink",
+"type": "LinkedServiceReference"
+},
+"typeProperties": {
+"functionName": "myFunction",
+"method": "POST",
+"body": "{}"
+}
+}
+]
+}
+}
+]
+}
