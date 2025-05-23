@@ -74,8 +74,8 @@ jobs:
         id: function_deploy
         uses: Azure/functions-action@v1
         with:
-          app-name: ${{ inputs.function_name }}
-          package: ${{ github.workspace }}/${{ inputs.function_directory }}
+          app-name: testpostteamsgitGrimGit
+          package: ${{ github.workspace }}/funcDeployment1
           scm-do-build-during-deployment: true
           enable-oryx-build: true
           remote-build: true
