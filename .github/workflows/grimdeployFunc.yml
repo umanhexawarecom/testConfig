@@ -45,15 +45,15 @@ jobs:
           echo "function_name=${{ inputs.function_name || 'grimfuncalert' }}" >> $GITHUB_OUTPUT
           echo "function_rgp=${{ inputs.function_rgp || 'lineagempguk' }}" >> $GITHUB_OUTPUT
     
-  function_deploy:
-    needs: [EnvSetup]
+   function_deploy:
+    needs: [deploy]
     uses: ./.github/workflows/_grimfuncTemplate.yml
     name: "Function App Deploy"
     with:
-      environment:  ${{needs.EnvSetup.outputs.environment}}
-      function_directory:  ${{needs.EnvSetup.outputs.function_directory}}
-      function_name: ${{needs.EnvSetup.outputs.function_name}}
-      function_rgp: ${{needs.EnvSetup.outputs.function_rgp}}
+       environment:  ${{needs.EnvSetup.outputs.environment}}
+       function_directory:  ${{needs.EnvSetup.outputs.function_directory}}
+       function_name: ${{needs.EnvSetup.outputs.function_name}}
+       function_rgp: ${{needs.EnvSetup.outputs.function_rgp}}
     secrets: inherit
 
 
