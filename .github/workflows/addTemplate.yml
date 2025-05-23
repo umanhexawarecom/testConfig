@@ -40,7 +40,7 @@ jobs:
         with: 
           scope: resourcegroup
           resourceGroupName: lineagempguk
-          template: config/templategrim.json
+          template: config/templategrimpipe.json
           parameters: >
             config/paramatergrim.json
             config/devparametergrim.json
