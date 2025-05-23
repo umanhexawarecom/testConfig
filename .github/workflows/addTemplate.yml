@@ -42,5 +42,5 @@ jobs:
           resourceGroupName: lineagempguk
           template: config/templatedeploygit.json
           parameters: config/parameter.json           
-          deploymentName: synapsedeploypipe
+          deploymentName: synapsedeploypipes
   
