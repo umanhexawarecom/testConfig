@@ -1,0 +1,38 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+"contentVersion": "1.0.0.0",
+"parameters": {
+"workspaceName": { "type": "string" },
+"functionAppUrl": { "type": "string" },
+"keyVaultName": { "type": "string" },
+"keyVaultResourceId": { "type": "string" },
+"functionSecretName": {
+"type": "string",
+"defaultValue": "testfunckey"
+}
+},
+"resources": [
+{
+"type": "Microsoft.Synapse/workspaces/pipelines",
+"apiVersion": "2021-06-01",
+"name": "[format('{0}/umagitgrimfuncact-pipeline', parameters('workspaceName'))]",
+"properties": {
+"activities": [
+{
+"name": "umagitgrimfuncact",
+"type": "AzureFunctionActivity",
+"linkedServiceName": {
+"referenceName": "funcgrimgitlink",
+"type": "LinkedServiceReference"
+},
+"typeProperties": {
+"functionName": "myFunction",
+"method": "POST",
+"body": "{Post}"
+}
+}
+]
+}
+}
+]
+}
