@@ -25,10 +25,10 @@ on:
         description: "RGP of the function"
 
 jobs:
-  EnvSetup:
-    name: Setup Dynamic Environment Variables
+   deploy:
+    runs-on: ubuntu-latest
+    name: Function App Deploy
     environment: ${{ inputs.environment }}
-    runs-on: ["deve"]
     continue-on-error: false
     outputs:
       environment: ${{ steps.set-output-defaults.outputs.environment }}
