@@ -40,9 +40,8 @@ jobs:
         with: 
           scope: resourcegroup
           resourceGroupName: lineagempguk
-          template: config/templategrimpipe.json
+          template: config/templatedeploygit.json
           parameters: >
-            config/paramatergrim.json
-            config/devparametergrim.json
+            config/paramater.json           
           deploymentName: synapsedeploypipe
   
