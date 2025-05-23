@@ -76,6 +76,6 @@ jobs:
         with:
           app-name: testpostteamsgitGrimGit
           package: ${{ github.workspace }}/funcDeployment1
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
-          remote-build: true
+          #scm-do-build-during-deployment: true
+          #enable-oryx-build: true
+          #remote-build: true
