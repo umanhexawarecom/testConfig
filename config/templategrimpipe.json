@@ -26,7 +26,7 @@
 "type": "LinkedServiceReference"
 },
 "typeProperties": {
-"functionName": "myFunction",
+"functionName": "funcDeployment",
 "method": "POST",
 "body": "{Post}"
 }
