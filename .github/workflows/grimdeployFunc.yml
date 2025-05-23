@@ -15,7 +15,7 @@ on:
         description: "Specifies the directory of the Azure Function."
       function_name:
         required: true
-        default: "grimfuncalert"
+        default: "testpostteamsgitGrimGit"
         type: string        
         description: "Name of the function"
       function_rgp:
@@ -42,7 +42,7 @@ jobs:
           # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
           echo "environment=${{ inputs.environment || 'dev' }}" >> $GITHUB_OUTPUT
           echo "function_directory=${{ inputs.function_directory || 'function/funcDeployment1' }}" >> $GITHUB_OUTPUT
-          echo "function_name=${{ inputs.function_name || 'grimfuncalert' }}" >> $GITHUB_OUTPUT
+          echo "function_name=${{ inputs.function_name || 'testpostteamsgitGrimGit' }}" >> $GITHUB_OUTPUT
           echo "function_rgp=${{ inputs.function_rgp || 'lineagempguk' }}" >> $GITHUB_OUTPUT
     
    function_deploy:
