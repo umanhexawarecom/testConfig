@@ -1,0 +1,59 @@
+name: Alert Function Deployment
+on:
+ 
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."
+      function_directory:
+        required: true
+        type: string
+        default: "funcDeployment"
+        description: "Specifies the directory of the Azure Function."
+      function_name:
+        required: true
+        default: "grimfuncalert"
+        type: string        
+        description: "Name of the function"
+      function_rgp:
+        required: true
+        default: "lineagempguk"
+        type: string
+        description: "RGP of the function"
+
+jobs:
+  EnvSetup:
+    name: Setup Dynamic Environment Variables
+    environment: ${{ inputs.environment }}
+    runs-on: ["deve"]
+    continue-on-error: false
+    outputs:
+      environment: ${{ steps.set-output-defaults.outputs.environment }}
+      function_directory: ${{ steps.set-output-defaults.outputs.function_directory }}
+      function_name: ${{ steps.set-output-defaults.outputs.function_name }}
+      function_rgp: ${{ steps.set-output-defaults.outputs.function_rgp }}
+    steps:
+      - name: set outputs with default values
+        id: set-output-defaults
+        run: |    
+          # If workflow_dispatch, use inputs (left), if other trigger, use default env (right)
+          echo "environment=${{ inputs.environment || 'dev' }}" >> $GITHUB_OUTPUT
+          echo "function_directory=${{ inputs.function_directory || 'function/funcDeployment' }}" >> $GITHUB_OUTPUT
+          echo "function_name=${{ inputs.function_name || 'grimfuncalert' }}" >> $GITHUB_OUTPUT
+          echo "function_rgp=${{ inputs.function_rgp || 'lineagempguk' }}" >> $GITHUB_OUTPUT
+    
+  function_deploy:
+    needs: [EnvSetup]
+    uses: ./.github/workflows/_grimfuncTemplate.yml
+    name: "Function App Deploy"
+    with:
+      environment:  ${{needs.EnvSetup.outputs.environment}}
+      function_directory:  ${{needs.EnvSetup.outputs.function_directory}}
+      function_name: ${{needs.EnvSetup.outputs.function_name}}
+      function_rgp: ${{needs.EnvSetup.outputs.function_rgp}}
+    secrets: inherit
+
+
