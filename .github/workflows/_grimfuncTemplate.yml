@@ -81,6 +81,6 @@ jobs:
         with:
           app-name: ${{ inputs.function_name }}
           package: ${{ github.workspace }}/${{ inputs.function_directory }}
-          #scm-do-build-during-deployment: true
-          #enable-oryx-build: true
-          #remote-build: true
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
+          remote-build: true
