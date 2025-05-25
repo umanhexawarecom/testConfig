@@ -79,7 +79,7 @@ jobs:
         id: function_deploy
         uses: Azure/functions-action@v1
         with:
-          app-name: testpostteamsgitGrimGit
+          app-name: ${{ inputs.function_name }}
           package: ${{ github.workspace }}/${{ inputs.function_directory }}
           #scm-do-build-during-deployment: true
           #enable-oryx-build: true
