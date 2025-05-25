@@ -23,6 +23,11 @@ on:
         default: "lineagempguk"
         type: string
         description: "Name of the RGP"
+      app_settings:
+        required: true
+        default: "false"
+        type: string
+        description: "App Settings to be Performed True/False"
     #secrets:
      # SP_TENANTID:
       #  required: true
