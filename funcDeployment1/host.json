@@ -1,0 +1,31 @@
+
+{
+  "version": "2.0",
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle",
+    "version": "[4.*, 5.0.0)"
+  },
+  "logging": {
+    "logLevel": {
+      "default": "Information",  // Changed from "Trace" to "Information" for less verbose logging
+      "Host": "Information"
+    },
+    "fileLoggingMode": "always",
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "excludedTypes": "Request"
+      }
+    },
+    "console": {
+      "isEnabled": true,
+      "DisableColors": false
+    }
+  },
+  "extensions": {
+    "http": {
+      "routePrefix": ""  // Optional: Removes the default "/api" prefix from HTTP routes
+    }
+  },
+  "functionTimeout": "00:05:00"  // Optional: Sets the timeout to 5 minutes
+}
