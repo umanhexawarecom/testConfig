@@ -59,11 +59,11 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Set Function App Settings
-      - name: Set Function App Settings
-        id: set_app_settings
-        run: |  
+      #- name: Set Function App Settings
+      #  id: set_app_settings
+      #  run: |  
 
-             az functionapp config appsettings set --name "testpostteamsgitGrimGit" --resource-group "lineagempguk" --settings "STORAGE_ACCOUNT_NAME=lineagempgukgits" "CONTAINER=lineagempgukfilegitc" 
+      #       az functionapp config appsettings set --name "testpostteamsgitGrimGit" --resource-group "lineagempguk" --settings "STORAGE_ACCOUNT_NAME=lineagempgukgits" "CONTAINER=lineagempgukfilegitc" 
 
       #       az functionapp config appsettings set --name ${{ inputs.function_name }} --resource-group "lineagempguk" --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "STORAGE_ACCOUNT_NAME=lineagempguk" "CONTAINER=lineagempgukfile" 
 
@@ -74,8 +74,8 @@ jobs:
         id: function_deploy
         uses: Azure/functions-action@v1
         with:
-          app-name: testpostteamsgitGrimGit
-          package: funcDeployment1
+          app-name: ${{ inputs.function_name }}
+          package: ${{ github.workspace }}/${{ inputs.function_directory }}
           #scm-do-build-during-deployment: true
           #enable-oryx-build: true
           #remote-build: true
