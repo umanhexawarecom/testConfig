@@ -68,6 +68,11 @@ jobs:
       #       az functionapp config appsettings set --name ${{ inputs.function_name }} --resource-group "lineagempguk" --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "STORAGE_ACCOUNT_NAME=lineagempguk" "CONTAINER=lineagempgukfile" 
 
       #      az functionapp config appsettings set --name ${{ inputs.function_name }} --resource-group ${{ inputs.function_rgp }} --settings "BUILD_FLAGS=UseExpressBuild" "SCM_DO_BUILD_DURING_DEPLOYMENT=1" "ENABLE_ORYX_BUILD=true" "CLAIMS_KAFKA_BROKER=${{ secrets.CLAIMS_BROKER }}" "CLAIMS_KAFKA_APIKEY=${{ secrets.CLAIMS_EBS_KEY }}" "CLAIMS_KAFKA_API_SECRET=${{ secrets.CLAIMS_EBS_SECRET }}" "CLAIMS_KAFKA_GROUPID=${{ secrets.CLAIMS_CONSUMER_GROUP }}" "STORAGE_ACCOUNT_NAME=${{ secrets.STORAGE_ACCOUNT_NAME }}" "CONTAINER=${{ secrets.CONTAINER }}" "GLOBI_KAFKA_BROKER=${{ secrets.GLOBI_BROKER }}" "GLOBI_KAFKA_APIKEY=${{ secrets.GLOBI_EBS_KEY }}" "GLOBI_KAFKA_API_SECRET=${{ secrets.GLOBI_EBS_SECRET }}" "GLOBI_KAFKA_GROUPID=${{ secrets.GLOBI_CONSUMER_GROUP }}"
+      - name: Debug Function Directory
+        run: |
+         echo "Workspace: $GITHUB_WORKSPACE"
+         echo "Function Directory: ${{ inputs.function_directory }}"
+         ls -la $GITHUB_WORKSPACE/${{ inputs.function_directory }}
 
       # Deploy Function
       - name: Deploy Function
