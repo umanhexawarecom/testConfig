@@ -50,7 +50,7 @@ jobs:
           echo "function_directory=${{ inputs.function_directory || 'function/funcDeployment1' }}" >> $GITHUB_OUTPUT
           echo "function_name=${{ inputs.function_name || 'testpostteamsgitGrimGit' }}" >> $GITHUB_OUTPUT
           echo "function_rgp=${{ inputs.function_rgp || 'lineagempguk' }}" >> $GITHUB_OUTPUT
-          echo "app_settings=${{ inputs.app_settings || 'true' }}" >> $GITHUB_OUTPUT
+          echo "app_settings=${{ inputs.app_settings || 'false' }}" >> $GITHUB_OUTPUT
     
    function_deploy:
     needs: [deploy]
