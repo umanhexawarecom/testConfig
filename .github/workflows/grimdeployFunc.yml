@@ -23,6 +23,11 @@ on:
         default: "lineagempguk"
         type: string
         description: "RGP of the function"
+      app_settings:
+        required: true
+        default: "true"
+        type: string
+        description: "App Settings to be Performed True/False"
 
 jobs:
    deploy:
@@ -35,6 +40,7 @@ jobs:
       function_directory: ${{ steps.set-output-defaults.outputs.function_directory }}
       function_name: ${{ steps.set-output-defaults.outputs.function_name }}
       function_rgp: ${{ steps.set-output-defaults.outputs.function_rgp }}
+      app_settings: ${{ steps.set-output-defaults.outputs.app_settings }}
     steps:
       - name: set outputs with default values
         id: set-output-defaults
@@ -44,6 +50,7 @@ jobs:
           echo "function_directory=${{ inputs.function_directory || 'function/funcDeployment1' }}" >> $GITHUB_OUTPUT
           echo "function_name=${{ inputs.function_name || 'testpostteamsgitGrimGit' }}" >> $GITHUB_OUTPUT
           echo "function_rgp=${{ inputs.function_rgp || 'lineagempguk' }}" >> $GITHUB_OUTPUT
+          echo "app_settings=${{ inputs.app_settings || 'true' }}" >> $GITHUB_OUTPUT
     
    function_deploy:
     needs: [deploy]
@@ -54,7 +61,7 @@ jobs:
        function_directory:  ${{needs.deploy.outputs.function_directory}}
        function_name: ${{needs.deploy.outputs.function_name}}
        function_rgp: ${{needs.deploy.outputs.function_rgp}}
-       skip_app_settings: true
+       app_settings: ${{needs.deploy.outputs.app_settings}}       
     secrets: inherit
 
 
