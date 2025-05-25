@@ -25,7 +25,7 @@ on:
         description: "RGP of the function"
       app_settings:
         required: true
-        default: "true"
+        default: "false"
         type: string
         description: "App Settings to be Performed True/False"
 
