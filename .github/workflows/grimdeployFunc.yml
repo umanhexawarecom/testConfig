@@ -54,6 +54,7 @@ jobs:
        function_directory:  ${{needs.deploy.outputs.function_directory}}
        function_name: ${{needs.deploy.outputs.function_name}}
        function_rgp: ${{needs.deploy.outputs.function_rgp}}
+       skip_app_settings: true
     secrets: inherit
 
 
