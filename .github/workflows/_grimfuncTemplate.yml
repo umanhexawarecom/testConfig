@@ -61,6 +61,7 @@ jobs:
       # Set Function App Settings
       - name: Set Function App Settings
         id: set_app_settings
+        if: ${{ inputs.skip_app_settings == false }}
         run: |  
 
              az functionapp config appsettings set --name "testpostteamsgitGrimGit" --resource-group "lineagempguk" --settings "STORAGE_ACCOUNT_NAME=lineagempgukgits" "CONTAINER=lineagempgukfilegitc" 
