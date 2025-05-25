@@ -50,10 +50,10 @@ jobs:
     uses: ./.github/workflows/_grimfuncTemplate.yml
     name: "Function App Deploy"
     with:
-       environment:  ${{needs.EnvSetup.outputs.environment}}
-       function_directory:  ${{needs.EnvSetup.outputs.function_directory}}
-       function_name: ${{needs.EnvSetup.outputs.function_name}}
-       function_rgp: ${{needs.EnvSetup.outputs.function_rgp}}
+       environment:  ${{needs.deploy.outputs.environment}}
+       function_directory:  ${{needs.deploy.outputs.function_directory}}
+       function_name: ${{needs.deploy.outputs.function_name}}
+       function_rgp: ${{needs.deploy.outputs.function_rgp}}
     secrets: inherit
 
 
