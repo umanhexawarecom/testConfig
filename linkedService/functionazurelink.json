@@ -1,0 +1,17 @@
+{
+  "properties": {
+    "type": "AzureFunction",
+    "typeProperties": {
+      "functionAppUrl": "https://testpostteamsgitGrimGit.azurewebsites.net",
+      "authentication": "functionKey",
+      "functionKey": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "umagitgrimkeyvault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "testfunckey"
+      }
+    }
+  }
+}
