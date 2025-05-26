@@ -39,6 +39,13 @@ jobs:
          echo "KEYVAULT_LINKED_SERVICE=umagitgrimkeyvault" >> $GITHUB_ENV
          echo "KEYVAULT_SECRET_NAME=testfunckey" >> $GITHUB_ENV
 
+      - name: Validate JSON File
+        run: |
+         echo "Checking if the JSON file exists..."
+         ls -l "${{ github.workspace }}/linkedService/keyvaultlink.json"
+         echo "Displaying JSON file contents:"
+         cat "${{ github.workspace }}/linkedService/keyvaultlink.json"
+
          # Create Linked Service for Key Vault
       - name: Create Key Vault Linked Service
         run: |
