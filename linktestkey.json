@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "type": "AzureKeyVault",
+    "typeProperties": {
+      "baseUrl": "https://testpostteamskey.vault.azure.net/"
+    }
+  }
+}
