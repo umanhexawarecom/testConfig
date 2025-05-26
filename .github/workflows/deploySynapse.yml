@@ -43,9 +43,9 @@ jobs:
       - name: Create Key Vault Linked Service
         run: |
           az synapse linked-service create \
-          --workspace-name ${{ env.SYNAPSE_WORKSPACE_NAME }} \
-          --name ${{ env.KEYVAULT_LINKED_SERVICE }} \
-          --file ${{ github.workspace }}/linkedService/keyvaultlink.json
+          --workspace-name "${{ env.SYNAPSE_WORKSPACE_NAME }}" \
+          --name "${{ env.KEYVAULT_LINKED_SERVICE }}" \
+          --file "${{ github.workspace }}/linkedService/keyvaultlink.json"
      
      # Create Linked Service for Azure Function
      # - name: Create Azure Function Linked Service
