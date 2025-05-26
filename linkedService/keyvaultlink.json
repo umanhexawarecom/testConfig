@@ -1,5 +1,4 @@
-{
-    "name": "keyvaultgrimgit1",
+{    
     "properties": {
         "annotations": [],
         "type": "AzureKeyVault",
