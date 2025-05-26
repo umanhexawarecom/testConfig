@@ -1,0 +1,65 @@
+name: Deploy Synapse Pipeline
+
+on:
+  workflow_dispatch: # Allows manual trigger of the workflow
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: "dev"
+        description: "Specifies the environment of the deployment."    
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Template Deploy
+    environment: ${{ inputs.environment }}
+    continue-on-error: false
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check Out Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Azure Login
+      - name: Azure Login
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Set up environment variables
+      - name: Set Environment Variables
+        run: |
+         echo "SUBSCRIPTION_ID=5eb6500b-fc64-43be-8441-d077bf6b88fa" >> $GITHUB_ENV
+         echo "RESOURCE_GROUP_NAME=lineagempguk" >> $GITHUB_ENV
+         echo "SYNAPSE_WORKSPACE_NAME=lineagempgworkuk" >> $GITHUB_ENV
+         echo "PIPELINE_NAME=umagitgrimpipe" >> $GITHUB_ENV
+         echo "AZURE_FUNCTION_LINKED_SERVICE=umagitgrimfunclink" >> $GITHUB_ENV
+         echo "KEYVAULT_LINKED_SERVICE=umagitgrimkeyvault" >> $GITHUB_ENV
+         echo "KEYVAULT_SECRET_NAME=testfunckey" >> $GITHUB_ENV
+
+         # Create Linked Service for Key Vault
+      - name: Create Key Vault Linked Service
+        run: |
+          az synapse linked-service create \
+          --workspace-name ${{ env.SYNAPSE_WORKSPACE_NAME }} \
+          --name ${{ env.KEYVAULT_LINKED_SERVICE }} \
+          --file linkedService/keyvaultlink.json
+     
+     # Create Linked Service for Azure Function
+     # - name: Create Azure Function Linked Service
+     #   run: |
+     #       az synapse linked-service create \
+     #       --workspace-name ${{ env.SYNAPSE_WORKSPACE_NAME }} \
+     #       --name ${{ env.AZURE_FUNCTION_LINKED_SERVICE }} \
+     #       --file @linkedServiceAzureFunction.json
+
+    # Deploy Synapse Pipeline
+     # - name: Deploy Synapse Pipeline
+     #   run: |
+     #    az synapse pipeline create \
+      ##    --workspace-name ${{ env.SYNAPSE_WORKSPACE_NAME }} \
+       #   --name ${{ env.PIPELINE_NAME }} \
+       #   --file @pipeline.json
+  
