@@ -1,8 +1,10 @@
 {
-  "properties": {
-    "type": "AzureKeyVault",
-    "typeProperties": {
-      "baseUrl": "https://testpostteamskey.vault.azure.net/"
+    "name": "keyvaultgrimgit1",
+    "properties": {
+        "annotations": [],
+        "type": "AzureKeyVault",
+        "typeProperties": {
+            "baseUrl": "https://testposteamskey.vault.azure.net/"
+        }
     }
-  }
 }
