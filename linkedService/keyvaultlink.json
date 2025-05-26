@@ -2,7 +2,7 @@
   "properties": {
     "type": "AzureKeyVault",
     "typeProperties": {
-      "baseUrl": "https://testposteamskey.vault.azure.net/"
+      "baseUrl": "https://testpostteamskey.vault.azure.net/"
     }
   }
 }
