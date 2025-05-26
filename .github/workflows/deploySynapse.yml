@@ -46,6 +46,7 @@ jobs:
           --workspace-name "${{ env.SYNAPSE_WORKSPACE_NAME }}" \
           --name "${{ env.KEYVAULT_LINKED_SERVICE }}" \
           --file "${{ github.workspace }}/linkedService/keyvaultlink.json"
+          --debug
      
      # Create Linked Service for Azure Function
      # - name: Create Azure Function Linked Service
@@ -54,6 +55,7 @@ jobs:
      #       --workspace-name ${{ env.SYNAPSE_WORKSPACE_NAME }} \
      #       --name ${{ env.AZURE_FUNCTION_LINKED_SERVICE }} \
      #       --file @linkedServiceAzureFunction.json
+     
 
     # Deploy Synapse Pipeline
      # - name: Deploy Synapse Pipeline
