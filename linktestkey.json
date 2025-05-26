@@ -1,4 +1,3 @@
-$body = @"
 {
   "properties": {
     "type": "AzureKeyVault",
@@ -7,4 +6,4 @@ $body = @"
     }
   }
 }
-"@
+
