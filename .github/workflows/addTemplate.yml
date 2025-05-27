@@ -38,9 +38,9 @@ jobs:
       - name: Azure Deploy
         uses: azure/arm-deploy@v1
         with: 
-          scope: resourcegroup
-          resourceGroupName: lineagempguk
-          template: config/templatedeploygit.json
-          parameters: config/parameter.json           
-          deploymentName: synapsedeploypipes
+          subscriptionId: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
+          resourceGroupName: 'lineagempguk'
+          template: 'config/keyvaulttemp.json'
+          parameters: 'config/keyvaultparameter.json'           
+          deploymentName: 'synapsedeploykv'
   
