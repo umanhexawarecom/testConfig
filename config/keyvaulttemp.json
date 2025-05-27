@@ -1,0 +1,38 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+"contentVersion": "1.0.0.0",
+"parameters": {
+"workspaceName": {
+"type": "string",
+"metadata": {
+"description": "Name of the Synapse workspace"
+}
+},
+"linkedServiceName": {
+"type": "string",
+"defaultValue": "AzureKeyVaultLS",
+"metadata": {
+"description": "Name of the linked service to create"
+}
+},
+"keyVaultUrl": {
+"type": "string",
+"metadata": {
+"description": "The full URL of the Azure Key Vault"
+}
+}
+},
+"resources": [
+{
+"type": "Microsoft.Synapse/workspaces/linkedservices",
+"apiVersion": "2020-12-01",
+"name": "[format('{0}/{1}', parameters('workspaceName'), parameters('linkedServiceName'))]",
+"properties": {
+"type": "AzureKeyVault",
+"typeProperties": {
+"baseUrl": "[parameters('keyVaultUrl')]"
+}
+}
+}
+]
+}
