@@ -1,0 +1,14 @@
+{
+"parameters": {
+"workspaceName": {
+"value": "lineagempgworkuk"
+},
+"linkedServiceName": {
+"value": "umagitgrimkey"
+},
+"keyVaultUrl": {
+"value": "https://testposteamskey.vault.azure.net/"
+}
+}
+}
+
