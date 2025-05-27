@@ -39,8 +39,10 @@ jobs:
         uses: azure/arm-deploy@v1
         with: 
           subscriptionId: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
-          resourceGroupName: 'lineagempguk'
-          template: 'config/keyvaulttemp.json'
-          parameters: 'config/keyvaultparameter.json'           
+          resourceGroupName: lineagempguk
+          template: config/keyvaulttemp.json
+          parameters: config/keyvaultparameter.json          
           deploymentName: 'synapsedeploykv'
+        env:
+         AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
   
