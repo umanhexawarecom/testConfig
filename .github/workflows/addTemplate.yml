@@ -43,6 +43,15 @@ jobs:
           template: config/keyvaulttemp.json
           parameters: config/keyvaultparameter.json          
           deploymentName: 'synapsedeploykv'
+          failonStdErr: false
         env:
          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+     # Verify the Synapse template
+      - name: print
+        run: |
+          az deployment group show \
+            --name synapsedeploykv \
+            --resource-group lineagempguk \
+            -o json
   
